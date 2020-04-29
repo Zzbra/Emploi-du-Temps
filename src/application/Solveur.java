@@ -519,7 +519,7 @@ public class Solveur {
 //
 //		this.contrainteEnseignantGroupe();
 
-		this.contrainteCalculDeviation();
+		//this.contrainteCalculDeviation();
 	}
 
 	public void solveWithModel(){

@@ -26,10 +26,11 @@ public class CalculDifference {
             for(int l = 0; l < nbGroupes; l++) {
                 for (int j = 0; j < nbSolutions-1; j++) {
                     for (int k = j + 1; k < nbSolutions; k++) {
-                        if(!edt[j*nbGroupes + l][i].equals(edt[k*nbGroupes +l][i]) &&
-                                edt[j*nbGroupes + l][i] != null && edt[k*nbGroupes +l][i] != null){
-                            Difference diff = new Difference(edt[j*nbGroupes + l][i], edt[k*nbGroupes + l][i], j+1, k+1, this.creneaux[i]);
-                            resultat.get(l).add(diff);
+                        if ( edt[j*nbGroupes + l][i] != null && edt[k*nbGroupes +l][i] != null) {
+                            if (!edt[j * nbGroupes + l][i].equals(edt[k * nbGroupes + l][i])) {
+                                Difference diff = new Difference(edt[j * nbGroupes + l][i], edt[k * nbGroupes + l][i], j + 1, k + 1, this.creneaux[i]);
+                                resultat.get(l).add(diff);
+                            }
                         }
                     }
                 }
