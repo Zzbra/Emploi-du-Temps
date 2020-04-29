@@ -1,0 +1,6 @@
+-Les contraintes de type: "Programmé une fois dans la semaine avec x ou y ou z matière"
+J'ai besoin d'un peu plus de clarté pour pouvoir implémenter cette contrainte.
+
+-Les contraintes qui font en sorte que certains cours sont donnés en
+bloc de deux heures
+

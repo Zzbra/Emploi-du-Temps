@@ -1,0 +1,46 @@
+Jour 1: Lundi 13/04/2020:
+	Férié: Lundi de paques
+
+
+Jour 2: Mardi 14/04/2020:
+	Téléchargement de Choco-Solver
+	Apprentissage du cour en ligne, Chap 1 et 2 avec les exercices
+	Réalisation des 1ers tutoriels de la documentation de choco solver
+
+
+Jour 3: Mercredi 15/04/2020:
+	Fin des tutoriels en ligne
+	Beaucoup de temps à lire la Documentation de Choco-solver
+	Début de lecture du code
+
+
+Jour 4: Jeudi 16/04/2020:
+	Pour plus de clarté dans la modélisation, j'ai décidé de changer la structure activité, qui 
+	était un tableau à une dimension contenant les 20 activités du 1er groupe et les 20 du deuxième à la suite.
+	Un tableau à 2 dimensions permet de mieux distinguer quelles activitées correspondent à quel groupe
+	Changement dans le code:
+		-Dans la classe Probleme, redéfinition de la structure Activite en tableau 2D
+		-Dans la classe Solveur, redéfinition des structures heures, enseignants et salles en tableaux 2D
+		-Adaptation du code pour prendre en compte ces changements
+
+
+Jour 5: Vendredi 17/04/2020:
+	Après discussion avec Mr Prcovic, nous avons décidé de rendre le code plus générique.
+	En effet, beaucoup de fonctionnalitées étaient codées en dur, ce qui rendait le code non 
+	fonctionnel sur d'autre instances possible du problème.
+	Pour ce faire j'ai:
+		-Ajouter deux tableaux: matières et creneauxOff à la classe proffesseur pour automatiser
+		l'assignation des matières enseignées exclusivement par certains proffesseurs à ces derniers.
+		-Modifier toutes les contraintes pour quelle ne soit plus codées en dur et fonctionnes sur toutes 
+		instances possibles du problème
+	J'ai également implémentées des nouvelles contraintes. Elles ne sont pas encore toutes implémentées.
+
+
+Jour 6: Lundi 20/04/2020:
+    -Rendu générique la gestion des heures préférentiélles des matières. Les matières peuvent maintenant
+    prendre un argument supplémentaire servant à spécifier les créneaux préférentiels.
+    -Rendu générique la contrainte permettant de briser les symétries en s'assurant que les cours
+    ayant plusieurs occurence dans la semaine ont lieux toujours dans le même ordre.
+    -Réécriture de la classe Solveur pour que les fonctions ne soient plus statiques et pour séparer
+    les différentes contraintes en méthodes pour plus de lisibilité.
+    -Réécriture de la contrainte "contraintesCoursSalles" pour qu'elle soit générique.
