@@ -57,7 +57,7 @@ public class Solveur {
 		for (int i = 0; i < 3; i++) {
 			this.deviation[i] = IntStream
 					.range(0, nbGroupes*nbActivites)
-					.mapToObj(j -> model.intVar("earliness #" + j, 0, 1, false))
+					.mapToObj(j -> model.intVar("deviation #" + j, 0, 1, false))
 					.toArray(IntVar[]::new);
 		}
 
