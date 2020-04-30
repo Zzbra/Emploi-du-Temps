@@ -3,12 +3,16 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solver;
 import org.chocosolver.solver.constraints.nary.cnf.LogOp;
+import org.chocosolver.solver.search.strategy.Search;
+import org.chocosolver.solver.search.strategy.selectors.variables.InputOrder;
 import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
 import org.chocosolver.util.tools.ArrayUtils;
 
+
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /*
@@ -67,18 +71,25 @@ public class Solveur {
 		this.salles = new IntVar[nbGroupes][nbActivites];
 		for (int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
-				this.salles[i][j] = model.intVar("salle", indicesSallesGroupes.get(i));
+				this.salles[i][j] = model.intVar("salle: " + i + " " + j, indicesSallesGroupes.get(i));
 			}
 		}
 
 		this.enseignants = new IntVar[nbGroupes][nbActivites];
 		for (int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
-				this.enseignants[i][j] = model.intVar("enseignants", indicesEnseignantsGroupes.get(i));
+				this.enseignants[i][j] = model.intVar("enseignants: " + i + " " + j, indicesEnseignantsGroupes.get(i));
 			}
 		}
 
-		this.heures = model.intVarMatrix("heures", nbGroupes, nbActivites, 0, nbCreneaux - 1);
+		this.heures = new IntVar[nbGroupes][nbActivites];
+		for (int i = 0; i < nbGroupes; i++) {
+			for (int j = 0; j < nbActivites; j++) {
+				this.heures[i][j] = model.intVar("heure: " + i + " " + j, 0, nbCreneaux - 1);
+			}
+		}
+
+//		this.heures = model.intVarMatrix("heures", nbGroupes, nbActivites, 0, nbCreneaux - 1);
 		//this.enseignants = model.intVarMatrix("enseignants", nbGroupes, nbActivites, 0, nbEnseignants - 1);
 		//this.salles = model.intVarMatrix("salles", nbGroupes, nbActivites, 0, nbSalles - 1);
 
@@ -97,6 +108,38 @@ public class Solveur {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void setReferenceSolution(){
+		IntVar[] dataCat =null;
+		int[] dataCatSol = null;
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, heures[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getHeures()[i]);
+		}
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, enseignants[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getEnseignants()[i]);
+		}
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, salles[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getSalles()[i]);
+		}
+		IntVar[] finalDataCat = dataCat;
+		int[] finalDataCatSol = dataCatSol;
+		Map<IntVar, Integer> map = IntStream.range(0,nbGroupes*nbCreneaux*3).boxed().collect(Collectors.toMap(i-> finalDataCat[i], i -> finalDataCatSol[i]));
+
+		model.getSolver().setSearch(Search.intVarSearch(
+				new InputOrder<>(model), // variable selection: from ticks[0] to ticks[m-1]
+				var -> { // value selection, choose value from solution if possible
+					if(var.contains(map.get(var))){
+						return map.get(var);
+					}
+					return var.getLB(); // otherwise, select the current lower bound
+				},
+				finalDataCat
+		));
+		model.getSolver().setLDS(12); // discrepancy is set to 12
 	}
 
 	private void contrainteCalculDeviation(){
@@ -520,6 +563,8 @@ public class Solveur {
 //		this.contrainteEnseignantGroupe();
 
 		//this.contrainteCalculDeviation();
+
+		this.setReferenceSolution();
 	}
 
 	public void solveWithModel(){
