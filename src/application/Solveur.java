@@ -612,7 +612,7 @@ public class Solveur {
 
 				SolutionEdt solutionEdt = new SolutionEdt(heuresSol, enseignantsSol, sallesSol, nbGroupes);
 				//
-				serializaSolution(solutionEdt, "src/Solutions_Serialisees/solG.ser");
+				//serializaSolution(solutionEdt, "src/Solutions_Serialisees/solG.ser");
 
 
 				k++;
