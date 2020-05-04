@@ -604,7 +604,8 @@ public class Solveur {
 				}
 
 				SolutionEdt solutionEdt = new SolutionEdt(heuresSol, enseignantsSol, sallesSol, nbGroupes);
-				serializaSolution(solutionEdt);
+				//
+				// serializaSolution(solutionEdt);
 
 
 				k++;

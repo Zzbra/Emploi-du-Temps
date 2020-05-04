@@ -7,7 +7,7 @@ public class Main {
         solveur.solve();
         solveur.printModele();
         solveur.printSolution();
-        //solveur.printDifferenceAvecModele();
+        solveur.printDifferenceAvecModele();
 //        solveur.printDifferences();
     }
 

@@ -6,7 +6,7 @@ public class Solution {
 	
 
 	public Solution() {
-		this.probleme = new Probleme(2, 2);
+		this.probleme = new Probleme(2, 1);
 		this.solveur = new Solveur(probleme);
 		this.solveur.definirContraintes();
 		this.solveur.solve();
