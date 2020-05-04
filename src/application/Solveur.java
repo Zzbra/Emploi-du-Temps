@@ -92,7 +92,7 @@ public class Solveur {
 			}
 		}
 
-		File fichier = new File("src/Solutions_Serialisees/sol.ser");
+		File fichier = new File("src/Solutions_Serialisees/solAB.ser");
 		ObjectInputStream ois = null;
 		this.solutionEdt = null;
 		try {
@@ -653,10 +653,8 @@ public class Solveur {
 
 	private void fillModele(){
 		modele = new CaseEdTGroupe[solutionEdt.getNbGroupes()][20];
-		System.out.println(solutionEdt.getNbGroupes());
 		Salle[] lesSalles = instance.getSalles();
 		Enseignant[] lesEnseignants = instance.getEnseignants();
-		System.out.println(lesEnseignants.length + " " + lesSalles.length);
 		for (int i = 0; i < nbActivites * nbGroupes; i++) {
 			Activite activite = instance.getActivite(i / nbActivites, i % nbActivites);
 			modele[(i / nbActivites)][solutionEdt.getHeures()[i / nbActivites][i % nbActivites]] =
