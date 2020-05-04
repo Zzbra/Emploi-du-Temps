@@ -92,7 +92,7 @@ public class Solveur {
 		//this.enseignants = model.intVarMatrix("enseignants", nbGroupes, nbActivites, 0, nbEnseignants - 1);
 		//this.salles = model.intVarMatrix("salles", nbGroupes, nbActivites, 0, nbSalles - 1);
 
-		File fichier = new File("sol.ser");
+		File fichier = new File("src/Solutions_Serialisees/sol.ser");
 		ObjectInputStream ois = null;
 		this.solutionEdt = null;
 		try {
@@ -138,7 +138,7 @@ public class Solveur {
 				},
 				finalDataCat
 		));
-		model.getSolver().setLDS(12); // discrepancy is set to 12
+		model.getSolver().setLDS(1); // discrepancy is set to 12
 	}
 
 	private void contrainteCalculDeviation(){
@@ -435,7 +435,7 @@ public class Solveur {
 			// Pour tout les groupes deux à deux
 			for (int j = 0; j < nbGroupes-1; j++) {
 				for (int k = j+1; k < nbGroupes; k++) {
-					// Si les groupe sont de même nature, on définit un ordre sur les salles
+					// Si les groupe sont de même nature, on définit un ordre sur les enseignants
 					if(activitesMat[j][i].getMatiere().getNature().equals(activitesMat[k][i].getMatiere().getNature())){
 						model.arithm(enseignants[j][i], "<=", enseignants[k][i]).post();
 					}
@@ -553,9 +553,9 @@ public class Solveur {
 		// pour briser les symétries
 		this.contrainteSymetrieSequence();
 
-		this.contrainteSymetrieClasses();
-
-		this.contrainteSymetrieEnseignants();
+//		this.contrainteSymetrieClasses();
+//
+//		this.contrainteSymetrieEnseignants();
 
 //		this.contrainteSalleGroupe();
 //
@@ -563,7 +563,7 @@ public class Solveur {
 
 		//this.contrainteCalculDeviation();
 
-		this.setReferenceSolution();
+
 	}
 
 	public void solveWithModel(){
@@ -573,6 +573,13 @@ public class Solveur {
 		solver.findOptimalSolution(deviation_totale, false);
 		resultat = new CaseEdTGroupe[nbGroupes][nbCreneaux];
 		fillResultat(0);
+	}
+
+	public void solveWithReferenceSolution(){
+		this.setReferenceSolution();
+		this.printModele();
+		this.solve();
+		this.printDifferenceAvecModele();
 	}
 
 	public void solve(){
@@ -605,7 +612,7 @@ public class Solveur {
 
 				SolutionEdt solutionEdt = new SolutionEdt(heuresSol, enseignantsSol, sallesSol, nbGroupes);
 				//
-				// serializaSolution(solutionEdt);
+				serializaSolution(solutionEdt, "src/Solutions_Serialisees/solG.ser");
 
 
 				k++;
@@ -626,8 +633,10 @@ public class Solveur {
 
 	private void fillModele(){
 		modele = new CaseEdTGroupe[solutionEdt.getNbGroupes()][20];
+		System.out.println(solutionEdt.getNbGroupes());
 		Salle[] lesSalles = instance.getSalles();
 		Enseignant[] lesEnseignants = instance.getEnseignants();
+		System.out.println(lesEnseignants.length + " " + lesSalles.length);
 		for (int i = 0; i < nbActivites * nbGroupes; i++) {
 			Activite activite = instance.getActivite(i / nbActivites, i % nbActivites);
 			modele[(i / nbActivites)][solutionEdt.getHeures()[i / nbActivites][i % nbActivites]] =
@@ -697,8 +706,8 @@ public class Solveur {
 	}
 
 
-	private void serializaSolution(SolutionEdt solutionEdt){
-		File fichier = new File("sol.ser");
+	public static void serializaSolution(SolutionEdt solutionEdt, String path){
+		File fichier = new File(path);
 		ObjectOutputStream oos = null;
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream(fichier));

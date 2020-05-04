@@ -27,6 +27,48 @@ public class Probleme {
 		this.setActivites(theActivites());
 	}
 
+	public Probleme(int nbGroupes, int indiceDepard, int nbSols) {
+		super();
+		this.nbGroupes = nbGroupes;
+		this.nbSols = nbSols;
+		ArrayList<Enseignant> enseignantsList = new ArrayList<>();
+		enseignantsList.add(theEnseignants()[0]);
+		int indiceDepardProf = 1 + (indiceDepard/2) * 3;
+		for (int i = 0; i < (nbGroupes/2)*3; i++) {
+			enseignantsList.add(theEnseignants()[indiceDepardProf + i]);
+		}
+		this.setEnseignant(enseignantsList.toArray(new Enseignant[enseignantsList.size()]));
+		ArrayList<Salle> sallesList = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			sallesList.add(theSalles()[i]);
+		}
+		for (int i = 0; i < nbGroupes; i++) {
+			sallesList.add(theSalles()[3 + indiceDepard + i]);
+		}
+		this.setSalle(sallesList.toArray(new Salle[sallesList.size()]));
+
+		this.setCreneaux(theCreneaux());
+		this.setGroupe(theGroupes(nbGroupes, indiceDepard, nbSols));
+		this.setMatiere(theMatieres());
+		this.setActivites(theActivites());
+	}
+
+	public void printProbleme(){
+		System.out.println();
+		for (int i = 0; i < getEnseignants().length; i++) {
+			System.out.printf("%s; ", getEnseignant(i));
+		}
+		System.out.println();
+		for (int i = 0; i < getSalles().length; i++) {
+			System.out.printf("%s; ", getSalle(i));
+		}
+		System.out.println();
+		for (int i = 0; i < getGroupe().length; i++) {
+			System.out.printf("%s; ", getGroupe()[i]);
+		}
+		System.out.println();
+	}
+
 	public int getNbGroupes() {
 		return nbGroupes;
 	}
@@ -190,20 +232,18 @@ public class Probleme {
 	}
 	
 	public Groupe [] theGroupes() {
-		Groupe [] groupes = new Groupe [12];
+		Groupe [] groupes = new Groupe [10];
 		groupes[0] = new Groupe('A', 1, 15, "generique");
 		groupes[1] = new Groupe('A', 2, 15, "generique");
 		//groupes[2] = new Groupe('A', 3, 15, "generique");
 		groupes[2] = new Groupe( 'B', 3, 15, "generique");
 		groupes[3] = new Groupe( 'B', 4, 15, "generique");
-		groupes[4] = new Groupe( 'A', 5, 15, "generique");
-		groupes[5] = new Groupe( 'A', 6, 15, "generique");
-		groupes[6] = new Groupe( 'B', 7, 15, "generique");
-		groupes[7] = new Groupe( 'B', 8, 15, "generique");
-		groupes[8] = new Groupe( 'A', 9, 15, "generique");
-		groupes[9] = new Groupe( 'A', 10, 15, "generique");
-		groupes[10] = new Groupe( 'B', 11, 15, "generique");
-		groupes[11] = new Groupe( 'B', 12, 15, "generique");
+		groupes[4] = new Groupe( 'C', 5, 15, "generique");
+		groupes[5] = new Groupe( 'C', 6, 15, "generique");
+		groupes[6] = new Groupe( 'E', 7, 15, "generique");
+		groupes[7] = new Groupe( 'E', 8, 15, "generique");
+		groupes[8] = new Groupe( 'G', 9, 15, "generique");
+		groupes[9] = new Groupe( 'G', 10, 15, "generique");
 		return groupes;
 	}
 	public Groupe[] theGroupes(int nbSousGroupes, int nbSolutions){
@@ -212,7 +252,18 @@ public class Probleme {
 			char lettre = 'A';
 			int offset = (i/2)%(nbSousGroupes/2);
 			int numero = (int)lettre + offset;
-			groupes[i] = new Groupe((char)numero, i+1, 15, "generique");
+			groupes[i] = new Groupe(theGroupes()[i%theGroupes().length].getAlphabet(), i+1, 15, "generique");
+		}
+		return groupes;
+	}
+
+	public Groupe[] theGroupes(int nbSousGroupes, int indiceDepard, int nbSolutions){
+		Groupe[] groupes = new Groupe[nbSousGroupes * nbSolutions];
+		for (int i = 0; i < nbSousGroupes * nbSolutions; i++) {
+			char lettre = (char)((int)'A' + indiceDepard/2);
+			int offset = (i/2)%(nbSousGroupes/2);
+			int numero = (int)lettre + offset;
+			groupes[i] = new Groupe(theGroupes()[(indiceDepard + i) % theGroupes().length].getAlphabet(), i+1, 15, "generique");
 		}
 		return groupes;
 	}
@@ -247,8 +298,8 @@ public class Probleme {
 			matieres[14] = new Matiere("Remedition bureautique", new String[]{"cours"}, 0);
 			//matieres[15] = new Matiere("Bureautique", "info", 0);
 			matieres[15] = new Matiere("Anglais", new String[]{"anglais"}, 0);
-			matieres[16] = new Matiere("Sport", new String[]{"sport"}, 0, new int[]{2, 3, 12, 13, 14, 15});
-			matieres[17] = new Matiere("Sport", new String[]{"sport"}, 1, new int[]{2, 3, 12, 13, 14, 15});
+			matieres[16] = new Matiere("Sport", new String[]{"sport"}, 0, new int[]{2, 3, 14, 15});
+			matieres[17] = new Matiere("Sport", new String[]{"sport"}, 1, new int[]{2, 3, 14, 15});
 			matieres[18] = new Matiere("Demarches exterieures", new String[]{"autre"}, 0, new int[]{6, 7});
 			//matieres[19] = new Matiere("Null", "null", 0);
 			matieres[19] = new Matiere("Demarches exterieures", new String[]{"autre"}, 1, new int[]{6, 7});

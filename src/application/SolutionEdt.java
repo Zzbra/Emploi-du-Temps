@@ -31,4 +31,20 @@ public class SolutionEdt implements Serializable {
     public int getNbGroupes() {
         return nbGroupes;
     }
+
+    public void setHeures(int[][] heures) {
+        this.heures = heures;
+    }
+
+    public void setEnseignants(int[][] enseignants) {
+        this.enseignants = enseignants;
+    }
+
+    public void setSalles(int[][] salles) {
+        this.salles = salles;
+    }
+
+    public void setNbGroupes(int nbGroupes) {
+        this.nbGroupes = nbGroupes;
+    }
 }
