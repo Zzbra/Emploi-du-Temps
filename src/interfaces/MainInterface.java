@@ -36,7 +36,7 @@ public class MainInterface extends Application {
 		primaryStage.setTitle("Emploi du temps : Ecole de la deuxieme chance Marseille");
 		
 		Group root = new Group();
-		Solution solution = new Solution();
+		SolutionPbm solution = new SolutionPbm();
 		this.solveur=solution.getSolveur();
 		this.matCol=new CreateMatiereColor(solveur);
 

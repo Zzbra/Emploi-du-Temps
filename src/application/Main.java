@@ -5,7 +5,7 @@ public class Main {
         Solveur solveur = new Solveur(new Probleme(2,   1));
         solveur.getInstance().printProbleme();
         solveur.definirContraintes();
-        solveur.solveWithReferenceSolution();
+        solveur.LNS();
         solveur.printSolution();
         if(solveur.getInstance().getNbSols() > 1)
             solveur.printDifferences();

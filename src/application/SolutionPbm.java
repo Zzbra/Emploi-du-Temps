@@ -1,11 +1,11 @@
 package application;
 
-public class Solution {
+public class SolutionPbm {
 	private Probleme probleme;
 	private Solveur solveur;
 	
 
-	public Solution() {
+	public SolutionPbm() {
 		this.probleme = new Probleme(2, 1);
 		this.solveur = new Solveur(probleme);
 		this.solveur.definirContraintes();

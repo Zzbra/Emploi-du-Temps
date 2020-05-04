@@ -1,7 +1,11 @@
 package application;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solver;
+import org.chocosolver.solver.Solution;
 import org.chocosolver.solver.constraints.nary.cnf.LogOp;
+import org.chocosolver.solver.search.limits.FailCounter;
+import org.chocosolver.solver.search.loop.lns.INeighborFactory;
+import org.chocosolver.solver.search.loop.move.MoveLNS;
 import org.chocosolver.solver.search.strategy.Search;
 import org.chocosolver.solver.search.strategy.selectors.variables.InputOrder;
 import org.chocosolver.solver.variables.BoolVar;
@@ -88,25 +92,41 @@ public class Solveur {
 			}
 		}
 
-//		this.heures = model.intVarMatrix("heures", nbGroupes, nbActivites, 0, nbCreneaux - 1);
-		//this.enseignants = model.intVarMatrix("enseignants", nbGroupes, nbActivites, 0, nbEnseignants - 1);
-		//this.salles = model.intVarMatrix("salles", nbGroupes, nbActivites, 0, nbSalles - 1);
-
 		File fichier = new File("src/Solutions_Serialisees/sol.ser");
 		ObjectInputStream ois = null;
 		this.solutionEdt = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(fichier));
 			this.solutionEdt = (SolutionEdt)ois.readObject();
+			ois.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}finally {
-			try {
-				ois.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
+	}
+
+	public void LNS(){
+		IntVar[] dataCat =null;
+		int[] dataCatSol = null;
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, heures[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getHeures()[i]);
+		}
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, enseignants[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getEnseignants()[i]);
+		}
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, salles[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getSalles()[i]);
+		}
+		IntVar[] finalDataCat = dataCat;
+		int[] finalDataCatSol = dataCatSol;
+		Solution solution = new Solution(model, finalDataCat);
+		IntStream.range(0, nbGroupes * nbCreneaux * 3).forEach(i -> solution.setIntVal(finalDataCat[i], finalDataCatSol[i]));
+		MoveLNS lns = new MoveLNS(model.getSolver().getMove(), INeighborFactory.random(finalDataCat), new FailCounter(model, 100));
+		lns.loadFromSolution(solution, model.getSolver());
+		model.getSolver().setMove(lns);
+		this.solve();
 	}
 
 	private void setReferenceSolution(){
