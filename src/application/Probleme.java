@@ -298,7 +298,7 @@ public class Probleme {
 			matieres[14] = new Matiere("Remedition bureautique", new String[]{"cours"}, 0);
 			//matieres[15] = new Matiere("Bureautique", "info", 0);
 			matieres[15] = new Matiere("Anglais", new String[]{"anglais"}, 0);
-			matieres[16] = new Matiere("Sport", new String[]{"sport"}, 0, new int[]{2, 3, 10, 11, 12, 13, 14, 15});
+			matieres[16] = new Matiere("Sport", new String[]{"sport"}, 0, new int[]{2, 10, 11, 12, 13, 14, 15});
 			matieres[17] = new Matiere("Sport", new String[]{"sport"}, 1, new int[]{2, 3, 10, 11, 12, 13, 14, 15});
 			matieres[18] = new Matiere("Demarches exterieures", new String[]{"autre"}, 0, new int[]{6, 7});
 			//matieres[19] = new Matiere("Null", "null", 0);

@@ -45,6 +45,8 @@ public class Solveur {
 	private IntVar[][] deviation;
 	private SolutionEdt solutionEdt;
 	private int nbSol;
+	private IntVar[] finalDataCat;
+	private int[] finalDataCatSol;
 
 	public Solveur(Probleme instance) {
 		this.instance = instance;
@@ -92,7 +94,7 @@ public class Solveur {
 			}
 		}
 
-		File fichier = new File("src/Solutions_Serialisees/solAB.ser");
+		File fichier = new File("src/Solutions_Serialisees/solABC.ser");
 		ObjectInputStream ois = null;
 		this.solutionEdt = null;
 		try {
@@ -102,63 +104,6 @@ public class Solveur {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void LNS(){
-		IntVar[] dataCat =null;
-		int[] dataCatSol = null;
-		for (int i = 0; i < nbGroupes; i++) {
-			dataCat = ArrayUtils.append(dataCat, heures[i]);
-			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getHeures()[i]);
-		}
-		for (int i = 0; i < nbGroupes; i++) {
-			dataCat = ArrayUtils.append(dataCat, enseignants[i]);
-			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getEnseignants()[i]);
-		}
-		for (int i = 0; i < nbGroupes; i++) {
-			dataCat = ArrayUtils.append(dataCat, salles[i]);
-			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getSalles()[i]);
-		}
-		IntVar[] finalDataCat = dataCat;
-		int[] finalDataCatSol = dataCatSol;
-		Solution solution = new Solution(model, finalDataCat);
-		IntStream.range(0, nbGroupes * nbCreneaux * 3).forEach(i -> solution.setIntVal(finalDataCat[i], finalDataCatSol[i]));
-		MoveLNS lns = new MoveLNS(model.getSolver().getMove(), INeighborFactory.random(finalDataCat), new FailCounter(model, 100));
-		lns.loadFromSolution(solution, model.getSolver());
-		model.getSolver().setMove(lns);
-		this.solve();
-	}
-
-	private void setReferenceSolution(){
-		IntVar[] dataCat =null;
-		int[] dataCatSol = null;
-		for (int i = 0; i < nbGroupes; i++) {
-			dataCat = ArrayUtils.append(dataCat, heures[i]);
-			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getHeures()[i]);
-		}
-		for (int i = 0; i < nbGroupes; i++) {
-			dataCat = ArrayUtils.append(dataCat, enseignants[i]);
-			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getEnseignants()[i]);
-		}
-		for (int i = 0; i < nbGroupes; i++) {
-			dataCat = ArrayUtils.append(dataCat, salles[i]);
-			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getSalles()[i]);
-		}
-		IntVar[] finalDataCat = dataCat;
-		int[] finalDataCatSol = dataCatSol;
-		Map<IntVar, Integer> map = IntStream.range(0,nbGroupes*nbCreneaux*3).boxed().collect(Collectors.toMap(i-> finalDataCat[i], i -> finalDataCatSol[i]));
-
-		model.getSolver().setSearch(Search.intVarSearch(
-				new InputOrder<>(model), // variable selection: from ticks[0] to ticks[m-1]
-				var -> { // value selection, choose value from solution if possible
-					if(var.contains(map.get(var))){
-						return map.get(var);
-					}
-					return var.getLB(); // otherwise, select the current lower bound
-				},
-				finalDataCat
-		));
-		model.getSolver().setLDS(1); // discrepancy is set to 12
 	}
 
 	private void contrainteCalculDeviation(){
@@ -544,7 +489,7 @@ public class Solveur {
 	public void definirContraintes(){
 
 		// Deux activité ne peuvent avoir lieu dans la même salle au même moment
-		this.contrainteActiviteTempsSalle();
+		//this.contrainteActiviteTempsSalle();
 
 		// Deux Activites de meme groupe ne peuvent pas se passe au meme temps.
 		this.contrainteActiviteMemeGroupeMemeTemps();
@@ -595,9 +540,50 @@ public class Solveur {
 		fillResultat(0);
 	}
 
-	public void solveWithReferenceSolution(){
+	public void LNS(){
 		this.setReferenceSolution();
+		Solution solution = new Solution(model, finalDataCat);
+		IntStream.range(0, nbGroupes * nbCreneaux * 3).forEach(i -> solution.setIntVal(finalDataCat[i], finalDataCatSol[i]));
+		MoveLNS lns = new MoveLNS(model.getSolver().getMove(), INeighborFactory.random(finalDataCat), new FailCounter(model, 100));
+		lns.loadFromSolution(solution, model.getSolver());
+		model.getSolver().setMove(lns);
+		this.solve();
+	}
+
+	private void setReferenceSolution(){
+		IntVar[] dataCat =null;
+		int[] dataCatSol = null;
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, heures[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getHeures()[i]);
+		}
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, enseignants[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getEnseignants()[i]);
+		}
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, salles[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getSalles()[i]);
+		}
+		finalDataCat = dataCat;
+		finalDataCatSol = dataCatSol;
+	}
+
+	public void LDS(){
+		this.setReferenceSolution();
+		Map<IntVar, Integer> map = IntStream.range(0,nbGroupes*nbCreneaux*3).boxed().collect(Collectors.toMap(i-> finalDataCat[i], i -> finalDataCatSol[i]));
+		model.getSolver().setSearch(Search.intVarSearch(
+				new InputOrder<>(model), // variable selection: from ticks[0] to ticks[m-1]
+				var -> { // value selection, choose value from solution if possible
+					if(var.contains(map.get(var))){
+						return map.get(var);
+					}
+					return var.getLB(); // otherwise, select the current lower bound
+				},
+				finalDataCat
+		));
 		this.printModele();
+		model.getSolver().setLDS(5); // discrepancy is set to 12
 		this.solve();
 		this.printDifferenceAvecModele();
 	}
