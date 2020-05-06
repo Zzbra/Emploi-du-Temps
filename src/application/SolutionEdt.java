@@ -47,4 +47,15 @@ public class SolutionEdt implements Serializable {
     public void setNbGroupes(int nbGroupes) {
         this.nbGroupes = nbGroupes;
     }
+
+    public void print(){
+        Probleme probleme = new Probleme();
+        CaseEdTGroupe[][] sol  = Solveur.fillModele(this, probleme);
+        for (int i = 0; i < nbGroupes; i++) {
+            System.out.println("Groupe: " + (i+1));
+            for (int j = 0; j < 20; j++) {
+                System.out.println(probleme.theCreneaux()[j] + " : "+ sol[i][j]);
+            }
+        }
+    }
 }

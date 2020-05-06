@@ -1,8 +1,9 @@
 package application;
 
+
 public class Main {
     public static void main(String[] args) {
-        Solveur solveur = new Solveur(new Probleme(6,   1));
+        Solveur solveur = new Solveur(new Probleme(10,   1));
         solveur.getInstance().printProbleme();
         solveur.definirContraintes();
         solveur.LDS();

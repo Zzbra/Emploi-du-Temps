@@ -6,10 +6,10 @@ public class SolutionPbm {
 	
 
 	public SolutionPbm() {
-		this.probleme = new Probleme(2, 1);
+		this.probleme = new Probleme(6, 1);
 		this.solveur = new Solveur(probleme);
 		this.solveur.definirContraintes();
-		this.solveur.solve();
+		this.solveur.LDS();
 	}
 	
 	public Probleme getProbleme() {

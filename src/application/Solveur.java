@@ -94,7 +94,7 @@ public class Solveur {
 			}
 		}
 
-		File fichier = new File("src/Solutions_Serialisees/solABC.ser");
+		File fichier = new File("src/Solutions_Serialisees/sol10.ser");
 		ObjectInputStream ois = null;
 		this.solutionEdt = null;
 		try {
@@ -618,10 +618,12 @@ public class Solveur {
 
 				SolutionEdt solutionEdt = new SolutionEdt(heuresSol, enseignantsSol, sallesSol, nbGroupes);
 				//
-				//serializaSolution(solutionEdt, "src/Solutions_Serialisees/solG.ser");
+				//serializaSolution(solutionEdt, "src/Solutions_Serialisees/sol10.ser");
 
 
 				k++;
+			}else{
+				nbSol = k;
 			}
 		}
 	}
@@ -637,21 +639,22 @@ public class Solveur {
 		}
 	}
 
-	private void fillModele(){
-		modele = new CaseEdTGroupe[solutionEdt.getNbGroupes()][20];
+	public static CaseEdTGroupe[][] fillModele(SolutionEdt solutionEdt, Probleme instance){
+		CaseEdTGroupe[][] modele = new CaseEdTGroupe[solutionEdt.getNbGroupes()][20];
 		Salle[] lesSalles = instance.getSalles();
 		Enseignant[] lesEnseignants = instance.getEnseignants();
-		for (int i = 0; i < nbActivites * nbGroupes; i++) {
-			Activite activite = instance.getActivite(i / nbActivites, i % nbActivites);
-			modele[(i / nbActivites)][solutionEdt.getHeures()[i / nbActivites][i % nbActivites]] =
-					new CaseEdTGroupe(activite, lesSalles[solutionEdt.getSalles()[i / nbActivites][i % nbActivites]],
-					lesEnseignants[solutionEdt.getEnseignants()[i / nbActivites][i % nbActivites]]);
+		for (int i = 0; i < 20 * solutionEdt.getNbGroupes(); i++) {
+			Activite activite = instance.getActivite(i / 20, i % 20);
+			modele[(i / 20)][solutionEdt.getHeures()[i / 20][i % 20]] =
+					new CaseEdTGroupe(activite, lesSalles[solutionEdt.getSalles()[i / 20][i % 20]],
+					lesEnseignants[solutionEdt.getEnseignants()[i / 20][i % 20]]);
 		}
+		return modele;
 	}
 
 	public void printModele(){
 		System.out.println("Impression du modele:");
-		fillModele();
+		this.modele = fillModele(this.solutionEdt, this.getInstance());
 		for (int i = 0; i < solutionEdt.getNbGroupes(); i++) {
 			System.out.println("Groupe " + (i+1));
 			for (int j = 0; j < nbCreneaux; j++) {
