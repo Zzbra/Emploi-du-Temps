@@ -38,6 +38,10 @@ public class Enseignant {
 		this.creneauxOff = new ArrayList<>();
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	public ArrayList<Integer> getCreneauxOff() {
 		return creneauxOff;
 	}

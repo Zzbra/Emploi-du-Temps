@@ -148,7 +148,7 @@ public class Solveur {
 				char groupe = this.instance.getGroupe()[i].getAlphabet();
 				if(this.instance.getSalle(j).getGroupe().contains(groupe) ||
 				   this.instance.getSalle(j).getGroupe().contains('I')){
-					ligne.add(j);
+					ligne.add(this.instance.getSalle(j).getId());
 				}
 			}
 			resultat.add(ligne.stream().mapToInt(k -> k).toArray());
@@ -170,7 +170,7 @@ public class Solveur {
 				char groupe = this.instance.getGroupe()[i].getAlphabet();
 				if(this.instance.getEnseignant(j).getGroupe().contains(groupe) ||
 						this.instance.getEnseignant(j).getGroupe().contains('I')){
-					ligne.add(j);
+					ligne.add(this.instance.getEnseignant(j).getId());
 				}
 			}
 			resultat.add(ligne.stream().mapToInt(k -> k).toArray());
