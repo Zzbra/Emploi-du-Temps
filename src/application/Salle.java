@@ -6,10 +6,11 @@ public class Salle {
 	private ArrayList<Character> groupe;
 	private int number;
 	private ArrayList<String> nature;
-	private int capacity;
+	private int capacity, id;
 	
-	public Salle(char[] groupe, int number, String[] nature, int capacity) {
+	public Salle(char[] groupe, int number, String[] nature, int capacity, int id) {
 		super();
+		this.id = id;
 		this.groupe = new ArrayList<>(groupe.length);
 		for (int i = 0; i < groupe.length; i++) {
 			this.groupe.add(groupe[i]);
@@ -18,6 +19,10 @@ public class Salle {
 		this.nature = new ArrayList<>();
 		this.nature.addAll(Arrays.asList(nature));
 		this.setCapacity(capacity);
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public ArrayList<Character> getGroupe() {

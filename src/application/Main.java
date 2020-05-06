@@ -15,8 +15,3 @@ public class Main {
     }
 
 }
-/*
-Yang Zheng; Thierry Mathias; Christine Caldentey; Slimane Sadelli; Lionel Silvy; Diane Pietrini; Florence Exbrayat;
-I504; I0; I1; A513; A611; B612; B502;
-A1; A2; B3; B4;
- */

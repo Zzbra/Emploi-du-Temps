@@ -69,21 +69,21 @@ public class Solveur {
 
 		// On récupère les dommaines de définitions des salles et enseignants
 		// des différents groupes.
-		ArrayList<int[]> indicesSallesGroupes = getIndiceSallesParGroupes();
-		ArrayList<int[]> indicesEnseignantsGroupes = getIndiceEnseignantsParGroupes();
+		ArrayList<int[]> iDSallesGroupes = getIdSallesParGroupes();
+		ArrayList<int[]> iDEnseignantsGroupes = getIdEnseignantsParGroupes();
 
 		// Ici, on instancie les variables avec les domaines de définitions qui leur correspond
 		this.salles = new IntVar[nbGroupes][nbActivites];
 		for (int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
-				this.salles[i][j] = model.intVar("salle: " + i + " " + j, indicesSallesGroupes.get(i));
+				this.salles[i][j] = model.intVar("salle: " + i + " " + j, iDSallesGroupes.get(i));
 			}
 		}
 
 		this.enseignants = new IntVar[nbGroupes][nbActivites];
 		for (int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
-				this.enseignants[i][j] = model.intVar("enseignants: " + i + " " + j, indicesEnseignantsGroupes.get(i));
+				this.enseignants[i][j] = model.intVar("enseignants: " + i + " " + j, iDEnseignantsGroupes.get(i));
 			}
 		}
 
@@ -140,7 +140,7 @@ public class Solveur {
 		return resultat;
 	}
 
-	private ArrayList<int[]> getIndiceSallesParGroupes(){
+	private ArrayList<int[]> getIdSallesParGroupes(){
 		ArrayList<int[]> resultat = new ArrayList<>();
 		for (int i = 0; i < nbGroupes; i++) {
 			ArrayList<Integer> ligne = new ArrayList<>();
@@ -162,7 +162,7 @@ public class Solveur {
 		return resultat;
 	}
 
-	private ArrayList<int[]> getIndiceEnseignantsParGroupes(){
+	private ArrayList<int[]> getIdEnseignantsParGroupes(){
 		ArrayList<int[]> resultat = new ArrayList<>();
 		for (int i = 0; i < nbGroupes; i++) {
 			ArrayList<Integer> ligne = new ArrayList<>();

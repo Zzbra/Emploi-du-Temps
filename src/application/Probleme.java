@@ -155,37 +155,37 @@ public class Probleme {
 	
 	public Enseignant [] theEnseignants() {
 		Enseignant [] enseignants = new Enseignant [16];
-		enseignants[0] = new Enseignant("Yang Zheng", new char[]{'I'},new String[] {"anglais"});
+		enseignants[0] = new Enseignant("Yang Zheng", new char[]{'I'},new String[] {"anglais"}, 0);
 		enseignants[1] = new Enseignant("Thierry Mathias", new char[]{'A'},
-				new String[] {"referent", "maths", "bureautique"});
+				new String[] {"referent", "maths", "bureautique"}, 1);
 		enseignants[2] = new Enseignant("Christine Caldentey", new char[]{'A'},
-				new String[] {"referent", "sport", "arl"}, new int[]{8, 9, 10, 11});
+				new String[] {"referent", "sport", "arl"}, new int[]{8, 9, 10, 11}, 2);
 		enseignants[3] = new Enseignant("Slimane Sadelli", new char[]{'A'},
-				new String[] {"referent", "francais"}, new int[]{12, 13, 14, 15});
+				new String[] {"referent", "francais"}, new int[]{12, 13, 14, 15}, 3);
 		enseignants[4] = new Enseignant("Lionel Silvy", new char[]{'B'},
-				new String[]{"referent", "sport", "bureautique"}, new int[]{10, 11});
+				new String[]{"referent", "sport", "bureautique"}, new int[]{10, 11}, 4);
 		enseignants[5] = new Enseignant("Diane Pietrini", new char[]{'B'},
-				new String[]{"referent", "maths", "francais"});
+				new String[]{"referent", "maths", "francais"}, 5);
 		enseignants[6] = new Enseignant("Florence Exbrayat", new char[]{'B'},
-				new String[]{"referent", "francais"});
+				new String[]{"referent", "francais"}, 6);
 		enseignants[7] = new Enseignant("Carole Magaud", new char[]{'C'},
-				new String[]{"referent", "francais"});
+				new String[]{"referent", "francais"}, 7);
 		enseignants[8] = new Enseignant("Mokhtar Mansouri", new char[]{'C'},
-				new String[]{"referent", "bureautique", "maths"});
+				new String[]{"referent", "bureautique", "maths"}, 8);
 		enseignants[9] = new Enseignant("Philippe Del Bianco", new char[]{'C'},
-				new String[]{"referent", "maths", "francais"});
+				new String[]{"referent", "maths", "francais"}, 9);
 		enseignants[10] = new Enseignant("Pascal Marullaz", new char[]{'E'},
-				new String[]{"referent", "maths", "bureautique"});
+				new String[]{"referent", "maths", "bureautique"}, 10);
 		enseignants[11] = new Enseignant("Serge Raysseguier", new char[]{'E'},
-				new String[]{"referent", "francias"});
+				new String[]{"referent", "francias"}, 11);
 		enseignants[12] = new Enseignant("Abes Hammachi", new char[]{'E'},
-				new String[]{"referent", "bureautique", "maths"});
+				new String[]{"referent", "bureautique", "maths"}, 12);
 		enseignants[13] = new Enseignant("Jerome Pannetier", new char[]{'G'},
-				new String[]{"referent", "maths", "bureautique"});
+				new String[]{"referent", "maths", "bureautique"}, 13);
 		enseignants[14] = new Enseignant("Timote Ducatez", new char[]{'G'},
-				new String[]{"referent", "bureautique", "maths"});
+				new String[]{"referent", "bureautique", "maths"}, 14);
 		enseignants[15] = new Enseignant("Agnes Chambion", new char[]{'G'},
-				new String[]{"referent", "francais"});
+				new String[]{"referent", "francais"}, 15);
 
 
 		return enseignants;
@@ -203,19 +203,19 @@ public class Probleme {
 	
 	public Salle [] theSalles() {
 		Salle [] salles = new Salle [13];
-		salles[0] = new Salle (new char[]{'I'}, 504, new String[]{"anglais"}, 15);
-		salles[1] = new Salle(new char[]{'I'}, 0, new String[]{"sport"}, 500); //'I' indique que c'est pour tout le monde
-		salles[2] = new Salle(new char[]{'I'}, 1, new String[]{"autre"}, 500);
-		salles[3] = new Salle(new char[]{'A'}, 513, new String[]{"info"}, 15);
-		salles[4] = new Salle(new char[]{'A'}, 611, new String[]{"cours", "info"}, 15);
-		salles[5] = new Salle(new char[]{'B'}, 612, new String[]{"info"}, 15);
-		salles[6] = new Salle(new char[]{'B'}, 502, new String[]{"cours"}, 15);
-		salles[7] = new Salle(new char[]{'C'}, 613, new String[]{"info"}, 15);
-		salles[8] = new Salle(new char[]{'C'}, 603, new String[]{"cours"}, 15);
-		salles[9] = new Salle(new char[]{'E'}, 91, new String[]{"info"}, 15);	// 9bis
-		salles[10] = new Salle(new char[]{'E'}, 503, new String[]{"cours"}, 15);
-		salles[11] = new Salle(new char[]{'G'}, 512, new String[]{"info"}, 15);
-		salles[12] = new Salle(new char[]{'G'}, 501, new String[]{"cours"}, 15);
+		salles[0] = new Salle (new char[]{'I'}, 504, new String[]{"anglais"}, 15, 0);
+		salles[1] = new Salle(new char[]{'I'}, 0, new String[]{"sport"}, 500, 1); //'I' indique que c'est pour tout le monde
+		salles[2] = new Salle(new char[]{'I'}, 1, new String[]{"autre"}, 500, 2);
+		salles[3] = new Salle(new char[]{'A'}, 513, new String[]{"info"}, 15, 3);
+		salles[4] = new Salle(new char[]{'A'}, 611, new String[]{"cours", "info"}, 15, 4);
+		salles[5] = new Salle(new char[]{'B'}, 612, new String[]{"info"}, 15, 5);
+		salles[6] = new Salle(new char[]{'B'}, 502, new String[]{"cours"}, 15, 6);
+		salles[7] = new Salle(new char[]{'C'}, 613, new String[]{"info"}, 15, 7);
+		salles[8] = new Salle(new char[]{'C'}, 603, new String[]{"cours"}, 15, 8);
+		salles[9] = new Salle(new char[]{'E'}, 91, new String[]{"info"}, 15, 9);	// 9bis
+		salles[10] = new Salle(new char[]{'E'}, 503, new String[]{"cours"}, 15, 10);
+		salles[11] = new Salle(new char[]{'G'}, 512, new String[]{"info"}, 15, 11);
+		salles[12] = new Salle(new char[]{'G'}, 501, new String[]{"cours"}, 15, 12);
 //		salles[13] = new Salle('G', 511, new String[]{"cours"}, 15);
 		return salles;
 	}
