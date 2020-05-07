@@ -720,6 +720,9 @@ public class Solveur {
 		return -1;
 	}
 
+	public SolutionEdt getSolutionEdt() {
+		return solutionEdt;
+	}
 
 	public static void serializaSolution(SolutionEdt solutionEdt, String path){
 		File fichier = new File(path);
