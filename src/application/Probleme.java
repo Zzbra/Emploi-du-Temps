@@ -278,9 +278,6 @@ public class Probleme {
 	public Groupe[] theGroupes(int nbSousGroupes, int indiceDepard, int nbSolutions){
 		Groupe[] groupes = new Groupe[nbSousGroupes * nbSolutions];
 		for (int i = 0; i < nbSousGroupes * nbSolutions; i++) {
-			char lettre = (char)((int)'A' + indiceDepard/2);
-			int offset = (i/2)%(nbSousGroupes/2);
-			int numero = (int)lettre + offset;
 			groupes[i] = new Groupe(theGroupes()[(indiceDepard + i) % theGroupes().length].getAlphabet(), i+1, 15, "generique", (i%2)+1);
 		}
 		return groupes;
