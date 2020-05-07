@@ -9,29 +9,24 @@ public class Matiere {
 	private boolean hasCreneau;
 
 
-	public Matiere(String subject, String[] nature, int sequence) {
+	public Matiere(String subject, ArrayList<String > nature, int sequence) {
 		super();
 		this.setSubject(subject);
-		this.nature = new ArrayList<>();
-		for (int i = 0; i < nature.length; i++) {
-			this.nature.add(nature[i]);
-		}
+		this.nature = nature;
 		this.setSequence(sequence);
 		this.creneaux = new ArrayList<>();
 		this.hasCreneau = false;
 	}
-	public Matiere(String subject, String[] nature, int sequence,int[] creneaux) {
+	public Matiere(String subject, ArrayList<String> nature, int sequence,int[] creneaux) {
 		super();
 		this.setSubject(subject);
-		this.nature = new ArrayList<>();
-		for (int i = 0; i < nature.length; i++) {
-			this.nature.add(nature[i]);
-		}
+		this.nature = nature;
 		this.setSequence(sequence);
-		this.creneaux = new ArrayList<>();
-		for (int i = 0; i < creneaux.length; i++) {
-			this.creneaux.add(creneaux[i]);
-		}
+		this.creneaux = new ArrayList<Integer>(){{
+			for (int creneau : creneaux) {
+				add(creneau);
+			}
+		}};
 		this.hasCreneau = true;
 	}
 

@@ -10,14 +10,11 @@ public class Enseignant {
 	private ArrayList<Integer> creneauxOff;
 	private int id;
 
-	public Enseignant(String name, char[] groupe, String[] disciplines, int[] creneauxOff, int id) {
+	public Enseignant(String name,ArrayList<Character> groupe, String[] disciplines, int[] creneauxOff, int id) {
 		super();
 		this.id = id;
 		this.setName(name);
-		this.groupe = new ArrayList<>(groupe.length);
-		for (int i = 0; i < groupe.length; i++) {
-			this.groupe.add(groupe[i]);
-		}
+		this.groupe = groupe;
 		this.disciplines =new ArrayList<>(Arrays.asList(disciplines));
 
 		this.creneauxOff = new ArrayList<>(creneauxOff.length);
@@ -26,14 +23,11 @@ public class Enseignant {
 		}
 	}
 
-	public Enseignant(String name, char[] groupe, String[] disciplines, int id) {
+	public Enseignant(String name, ArrayList<Character> groupe, String[] disciplines, int id) {
 		super();
 		this.id = id;
 		this.setName(name);
-		this.groupe = new ArrayList<>(groupe.length);
-		for (int i = 0; i < groupe.length; i++) {
-			this.groupe.add(groupe[i]);
-		}
+		this.groupe = groupe;
 		this.disciplines =new ArrayList<>(Arrays.asList(disciplines));
 		this.creneauxOff = new ArrayList<>();
 	}

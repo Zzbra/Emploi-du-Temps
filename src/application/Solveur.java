@@ -228,7 +228,6 @@ public class Solveur {
 			if(instance.getEnseignants()[i].getDisciplines().contains("anglais"))
 				idProfAnglais = instance.getEnseignants()[i].getId();
 		}
-
 		for(int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
 				// On s'assure que le prof d'anglais ne donne que le cour d'anglais
@@ -269,7 +268,7 @@ public class Solveur {
 							// On s'assure que l'activité qui correspond est bien enseignée par le proffesseur en question
 							// Ici il faudra préciser la méthode avec laquelle on assicie les intitulés des matières
 							// avec ceux des cours donné par les profs. Ils diffèrent, ce qui peux causer des problèmes
-							model.arithm(enseignants[i/nbActivites][i%nbActivites], "=", j).post();
+							model.arithm(enseignants[i/nbActivites][i%nbActivites], "=", instance.getEnseignant(j).getId()).post();
 			}
 		}
 	}
@@ -310,10 +309,8 @@ public class Solveur {
 						boolList.add(model.arithm(salles[i][j], "=", mapSalles.get(s).get(k)).reify());
 					}
 				}
-				BoolVar[] boolVars = new BoolVar[boolList.size()];
-				for (int k = 0; k < boolList.size(); k++) {
-					boolVars[k] = boolList.get(k);
-				}
+
+				BoolVar[] boolVars = boolList.toArray(new BoolVar[boolList.size()]);
 				model.addClausesBoolOrArrayEqualTrue(boolVars);
 			}
 		}

@@ -8,16 +8,13 @@ public class Salle {
 	private ArrayList<String> nature;
 	private int capacity, id;
 	
-	public Salle(char[] groupe, int number, String[] nature, int capacity, int id) {
+	public Salle(ArrayList<Character> groupe, int number, ArrayList<String> nature, int capacity, int id) {
 		super();
 		this.id = id;
-		this.groupe = new ArrayList<>(groupe.length);
-		for (int i = 0; i < groupe.length; i++) {
-			this.groupe.add(groupe[i]);
-		}
+		this.groupe = groupe;
 		this.setNumber(number);
 		this.nature = new ArrayList<>();
-		this.nature.addAll(Arrays.asList(nature));
+		this.nature = nature;
 		this.setCapacity(capacity);
 	}
 

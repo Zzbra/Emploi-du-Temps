@@ -173,36 +173,36 @@ public class Probleme {
 
 	public Enseignant [] theEnseignants() {
 		Enseignant [] enseignants = new Enseignant [16];
-		enseignants[0] = new Enseignant("Yang Zheng", new char[]{'I'},new String[] {"anglais"}, 0);
-		enseignants[1] = new Enseignant("Thierry Mathias", new char[]{'A'},
+		enseignants[0] = new Enseignant("Yang Zheng", new ArrayList<Character>(){{add('I');}},new String[] {"anglais"}, 0);
+		enseignants[1] = new Enseignant("Thierry Mathias", new ArrayList<Character>(){{add('A');}},
 				new String[] {"referent", "maths", "bureautique"}, 1);
-		enseignants[2] = new Enseignant("Christine Caldentey", new char[]{'A'},
+		enseignants[2] = new Enseignant("Christine Caldentey", new ArrayList<Character>(){{add('A');}},
 				new String[] {"referent", "sport", "arl"}, new int[]{8, 9, 10, 11}, 2);
-		enseignants[3] = new Enseignant("Slimane Sadelli", new char[]{'A'},
+		enseignants[3] = new Enseignant("Slimane Sadelli", new ArrayList<Character>(){{add('A');}},
 				new String[] {"referent", "francais"}, new int[]{12, 13, 14, 15}, 3);
-		enseignants[4] = new Enseignant("Lionel Silvy", new char[]{'B'},
+		enseignants[4] = new Enseignant("Lionel Silvy", new ArrayList<Character>(){{add('B');}},
 				new String[]{"referent", "sport", "bureautique"}, new int[]{10, 11}, 4);
-		enseignants[5] = new Enseignant("Diane Pietrini", new char[]{'B'},
+		enseignants[5] = new Enseignant("Diane Pietrini", new ArrayList<Character>(){{add('B');}},
 				new String[]{"referent", "maths", "francais"}, 5);
-		enseignants[6] = new Enseignant("Florence Exbrayat", new char[]{'B'},
+		enseignants[6] = new Enseignant("Florence Exbrayat", new ArrayList<Character>(){{add('B');}},
 				new String[]{"referent", "francais"}, 6);
-		enseignants[7] = new Enseignant("Carole Magaud", new char[]{'C'},
+		enseignants[7] = new Enseignant("Carole Magaud", new ArrayList<Character>(){{add('C');}},
 				new String[]{"referent", "francais"}, 7);
-		enseignants[8] = new Enseignant("Mokhtar Mansouri", new char[]{'C'},
+		enseignants[8] = new Enseignant("Mokhtar Mansouri", new ArrayList<Character>(){{add('C');}},
 				new String[]{"referent", "bureautique", "maths"}, 8);
-		enseignants[9] = new Enseignant("Philippe Del Bianco", new char[]{'C'},
+		enseignants[9] = new Enseignant("Philippe Del Bianco", new ArrayList<Character>(){{add('C');}},
 				new String[]{"referent", "maths", "francais"}, 9);
-		enseignants[10] = new Enseignant("Pascal Marullaz", new char[]{'E'},
+		enseignants[10] = new Enseignant("Pascal Marullaz", new ArrayList<Character>(){{add('E');}},
 				new String[]{"referent", "maths", "bureautique"}, 10);
-		enseignants[11] = new Enseignant("Serge Raysseguier", new char[]{'E'},
+		enseignants[11] = new Enseignant("Serge Raysseguier", new ArrayList<Character>(){{add('E');}},
 				new String[]{"referent", "francias"}, 11);
-		enseignants[12] = new Enseignant("Abes Hammachi", new char[]{'E'},
+		enseignants[12] = new Enseignant("Abes Hammachi", new ArrayList<Character>(){{add('E');}},
 				new String[]{"referent", "bureautique", "maths"}, 12);
-		enseignants[13] = new Enseignant("Jerome Pannetier", new char[]{'G'},
+		enseignants[13] = new Enseignant("Jerome Pannetier", new ArrayList<Character>(){{add('G');}},
 				new String[]{"referent", "maths", "bureautique"}, 13);
-		enseignants[14] = new Enseignant("Timote Ducatez", new char[]{'G'},
+		enseignants[14] = new Enseignant("Timote Ducatez", new ArrayList<Character>(){{add('G');}},
 				new String[]{"referent", "bureautique", "maths"}, 14);
-		enseignants[15] = new Enseignant("Agnes Chambion", new char[]{'G'},
+		enseignants[15] = new Enseignant("Agnes Chambion", new ArrayList<Character>(){{add('G');}},
 				new String[]{"referent", "francais"}, 15);
 
 
@@ -221,19 +221,19 @@ public class Probleme {
 	
 	public Salle [] theSalles() {
 		Salle [] salles = new Salle [13];
-		salles[0] = new Salle (new char[]{'I'}, 504, new String[]{"anglais"}, 15, 0);
-		salles[1] = new Salle(new char[]{'I'}, 0, new String[]{"sport"}, 500, 1); //'I' indique que c'est pour tout le monde
-		salles[2] = new Salle(new char[]{'I'}, 1, new String[]{"autre"}, 500, 2);
-		salles[3] = new Salle(new char[]{'A'}, 513, new String[]{"info"}, 15, 3);
-		salles[4] = new Salle(new char[]{'A'}, 611, new String[]{"cours", "info"}, 15, 4);
-		salles[5] = new Salle(new char[]{'B'}, 612, new String[]{"info"}, 15, 5);
-		salles[6] = new Salle(new char[]{'B'}, 502, new String[]{"cours"}, 15, 6);
-		salles[7] = new Salle(new char[]{'C'}, 613, new String[]{"info"}, 15, 7);
-		salles[8] = new Salle(new char[]{'C'}, 603, new String[]{"cours"}, 15, 8);
-		salles[9] = new Salle(new char[]{'E'}, 91, new String[]{"info"}, 15, 9);	// 9bis
-		salles[10] = new Salle(new char[]{'E'}, 503, new String[]{"cours"}, 15, 10);
-		salles[11] = new Salle(new char[]{'G'}, 512, new String[]{"info"}, 15, 11);
-		salles[12] = new Salle(new char[]{'G'}, 501, new String[]{"cours"}, 15, 12);
+		salles[0] = new Salle (new ArrayList<Character>(){{add('I');}}, 504, new ArrayList<String>(){{add("anglais");}}, 15, 0);
+		salles[1] = new Salle(new ArrayList<Character>(){{add('I');}}, 0, new ArrayList<String>(){{add("sport");}}, 500, 1); //'I' indique que c'est pour tout le monde
+		salles[2] = new Salle(new ArrayList<Character>(){{add('I');}}, 1, new ArrayList<String>(){{add("autre");}}, 500, 2);
+		salles[3] = new Salle(new ArrayList<Character>(){{add('A');}}, 513, new ArrayList<String>(){{add("info");}}, 15, 3);
+		salles[4] = new Salle(new ArrayList<Character>(){{add('A');}}, 611, new ArrayList<String>(){{add("cours");add("info");}}, 15, 4);
+		salles[5] = new Salle(new ArrayList<Character>(){{add('B');}}, 612, new ArrayList<String>(){{add("info");}}, 15, 5);
+		salles[6] = new Salle(new ArrayList<Character>(){{add('B');}}, 502, new ArrayList<String>(){{add("cours");}}, 15, 6);
+		salles[7] = new Salle(new ArrayList<Character>(){{add('C');}}, 613, new ArrayList<String>(){{add("info");}}, 15, 7);
+		salles[8] = new Salle(new ArrayList<Character>(){{add('C');}}, 603, new ArrayList<String>(){{add("cours");}}, 15, 8);
+		salles[9] = new Salle(new ArrayList<Character>(){{add('E');}}, 91, new ArrayList<String>(){{add("info");}}, 15, 9);	// 9bis
+		salles[10] = new Salle(new ArrayList<Character>(){{add('E');}}, 503, new ArrayList<String>(){{add("cours");}}, 15, 10);
+		salles[11] = new Salle(new ArrayList<Character>(){{add('G');}}, 512, new ArrayList<String>(){{add("info");}}, 15, 11);
+		salles[12] = new Salle(new ArrayList<Character>(){{add('G');}}, 501, new ArrayList<String>(){{add("cours");}}, 15, 12);
 //		salles[13] = new Salle('G', 511, new String[]{"cours"}, 15);
 		return salles;
 	}
@@ -267,9 +267,6 @@ public class Probleme {
 	public Groupe[] theGroupes(int nbSousGroupes, int nbSolutions){
 		Groupe[] groupes = new Groupe[nbSousGroupes * nbSolutions];
 		for (int i = 0; i < nbSousGroupes * nbSolutions; i++) {
-			char lettre = 'A';
-			int offset = (i/2)%(nbSousGroupes/2);
-			int numero = (int)lettre + offset;
 			groupes[i] = new Groupe(theGroupes()[i%theGroupes().length].getAlphabet(), i+1, 15, "generique", (i%2)+1);
 		}
 		return groupes;
@@ -285,39 +282,39 @@ public class Probleme {
 	
 	public Matiere [] theMatieres() {
 			Matiere [] matieres = new Matiere [20];
-			matieres[0] = new Matiere("Temps referent", new String[]{"cours", "info"}, 0,new int[]{0, 1, 18, 19});
-			matieres[1] = new Matiere("Temps referent", new String[]{"cours", "info"}, 1, new int[]{0, 1, 18, 19});
-			matieres[2] = new Matiere("Temps referent", new String[]{"cours", "info"}, 2,new int[]{0, 1, 18, 19});
-			matieres[3] = new Matiere("Temps referent", new String[]{"cours", "info"}, 3, new int[]{0, 1, 18, 19});
+			matieres[0] = new Matiere("Temps referent", new ArrayList<String>(){{add("cours");add("info");}}, 0,new int[]{0, 1, 18, 19});
+			matieres[1] = new Matiere("Temps referent", new ArrayList<String>(){{add("cours");add("info");}}, 1, new int[]{0, 1, 18, 19});
+			matieres[2] = new Matiere("Temps referent", new ArrayList<String>(){{add("cours");add("info");}}, 2,new int[]{0, 1, 18, 19});
+			matieres[3] = new Matiere("Temps referent", new ArrayList<String>(){{add("cours");add("info");}}, 3, new int[]{0, 1, 18, 19});
 
 //		matieres[4] = new Matiere("Projet pedagogique", new String[]{"cours", "autre"}, 0, Color.WHITE);
 //		matieres[5] = new Matiere("Projet pedagogique", new String[]{"cours", "autre"}, 1, Color.WHITE);
-			matieres[4] = new Matiere("Projet pedagogique", new String[]{"autre"}, 0);
-			matieres[5] = new Matiere("Projet pedagogique", new String[]{"autre"}, 1);
+			matieres[4] = new Matiere("Projet pedagogique", new ArrayList<String>(){{add("autre");}}, 0);
+			matieres[5] = new Matiere("Projet pedagogique", new ArrayList<String>(){{add("autre");}}, 1);
 
-			matieres[6] = new Matiere("EDA francais", new String[]{"info"}, 0);
+			matieres[6] = new Matiere("EDA francais", new ArrayList<String>(){{add("info");}}, 0);
 
-			matieres[7] = new Matiere("Remediation francais", new String[]{"cours"}, 0);
+			matieres[7] = new Matiere("Remediation francais", new ArrayList<String>(){{add("cours");}}, 0);
 			//matieres[3] = new Matiere("EDA francais - micro e/se", new String[]{"info"}, 0);
 
-			matieres[8] = new Matiere("Francais", new String[]{"cours"}, 0);
+			matieres[8] = new Matiere("Francais", new ArrayList<String>(){{add("cours");}}, 0);
 
-			matieres[9] = new Matiere("Atelier lecture/ecriture", new String[]{"cours"}, 0);
-			matieres[10] = new Matiere("EDA maths", new String[]{"info"}, 0);
+			matieres[9] = new Matiere("Atelier lecture/ecriture", new ArrayList<String>(){{add("cours");}}, 0);
+			matieres[10] = new Matiere("EDA maths", new ArrayList<String>(){{add("info");}}, 0);
 			//matieres[8] = new Matiere("EDA maths - micro e/se", "info", 0);
-			matieres[11] = new Matiere("Remediation math", new String[]{"cours"}, 0);
-			matieres[12] = new Matiere("Mathematique", new String[]{"cours"}, 0);
+			matieres[11] = new Matiere("Remediation math", new ArrayList<String>(){{add("cours");}}, 0);
+			matieres[12] = new Matiere("Mathematique", new ArrayList<String>(){{add("cours");}}, 0);
 			//matieres[13] = new Matiere("ARL", new String[]{"cours"}, 0);
-			matieres[13] = new Matiere("EDA bureautique", new String[]{"info"}, 0);
+			matieres[13] = new Matiere("EDA bureautique", new ArrayList<String>(){{add("info");}}, 0);
 			//matieres[13] = new Matiere("EDA bureautique - micro e/se", "info", 0);
-			matieres[14] = new Matiere("Remedition bureautique", new String[]{"cours"}, 0);
+			matieres[14] = new Matiere("Remedition bureautique", new ArrayList<String>(){{add("cours");}}, 0);
 			//matieres[15] = new Matiere("Bureautique", "info", 0);
-			matieres[15] = new Matiere("Anglais", new String[]{"anglais"}, 0);
-			matieres[16] = new Matiere("Sport", new String[]{"sport"}, 0, new int[]{3, 10, 11, 12, 13, 14, 15});
-			matieres[17] = new Matiere("Sport", new String[]{"sport"}, 1, new int[]{2, 3, 10, 11, 12, 13, 14, 15});
-			matieres[18] = new Matiere("Demarches exterieures", new String[]{"autre"}, 0, new int[]{6, 7});
+			matieres[15] = new Matiere("Anglais", new ArrayList<String>(){{add("anglais");}}, 0);
+			matieres[16] = new Matiere("Sport", new ArrayList<String>(){{add("sport");}}, 0, new int[]{3, 10, 11, 12, 13, 14, 15});
+			matieres[17] = new Matiere("Sport", new ArrayList<String>(){{add("sport");}}, 1, new int[]{2, 3, 10, 11, 12, 13, 14, 15});
+			matieres[18] = new Matiere("Demarches exterieures", new ArrayList<String>(){{add("autre");}}, 0, new int[]{6, 7});
 			//matieres[19] = new Matiere("Null", "null", 0);
-			matieres[19] = new Matiere("Demarches exterieures", new String[]{"autre"}, 1, new int[]{6, 7});
+			matieres[19] = new Matiere("Demarches exterieures", new ArrayList<String>(){{add("autre");}}, 1, new int[]{6, 7});
 
 		return matieres;
 	}
