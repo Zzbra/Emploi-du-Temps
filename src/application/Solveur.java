@@ -140,26 +140,17 @@ public class Solveur {
 		return resultat;
 	}
 
-	private ArrayList<int[]> getIdSallesParGroupes(){
-		ArrayList<int[]> resultat = new ArrayList<>();
-		for (int i = 0; i < nbGroupes; i++) {
-			ArrayList<Integer> ligne = new ArrayList<>();
-			for (int j = 0; j < nbSalles; j++) {
-				char groupe = this.instance.getGroupe()[i].getAlphabet();
-				if(this.instance.getSalle(j).getGroupe().contains(groupe) ||
-				   this.instance.getSalle(j).getGroupe().contains('I')){
-					ligne.add(this.instance.getSalle(j).getId());
-				}
-			}
-			resultat.add(ligne.stream().mapToInt(k -> k).toArray());
+	public static CaseEdTGroupe[][] fillModele(SolutionEdt solutionEdt, Probleme instance){
+		CaseEdTGroupe[][] modele = new CaseEdTGroupe[solutionEdt.getNbGroupes()][20];
+		Salle[] lesSalles = instance.getSalles();
+		Enseignant[] lesEnseignants = instance.getEnseignants();
+		for (int i = 0; i < 20 * solutionEdt.getNbGroupes(); i++) {
+			Activite activite = instance.getActivite(i / 20, i % 20);
+			modele[(i / 20)][solutionEdt.getHeures()[i / 20][i % 20]] =
+					new CaseEdTGroupe(activite, instance.getSalleById(solutionEdt.getSalles()[i / 20][i % 20]),
+					instance.getEnseignantById(solutionEdt.getEnseignants()[i / 20][i % 20]));
 		}
-		for(int[] tab : resultat){
-			for (int i = 0; i < tab.length; i++) {
-				System.out.printf("%d; ", tab[i]);
-			}
-			System.out.println();
-		}
-		return resultat;
+		return modele;
 	}
 
 	private ArrayList<int[]> getIdEnseignantsParGroupes(){
@@ -203,64 +194,47 @@ public class Solveur {
 			model.allDifferent(heures[i]).post();
 		}
 	}
+
+	private ArrayList<int[]> getIdSallesParGroupes(){
+		ArrayList<int[]> resultat = new ArrayList<>();
+		for (int i = 0; i < nbGroupes; i++) {
+			ArrayList<Integer> ligne = new ArrayList<>();
+			for (int j = 0; j < nbSalles; j++) {
+				char groupe = this.instance.getGroupe()[i].getAlphabet();
+				if(this.instance.getSalle(j).getGroupe().contains(groupe) ||
+				   this.instance.getSalle(j).getGroupe().contains('I')){
+					ligne.add(this.instance.getSalle(j).getId());
+				}
+			}
+			resultat.add(ligne.stream().mapToInt(k -> k).toArray());
+		}
+		int j = 1;
+		for(int[] tab : resultat){
+			System.out.println("Groupe" + j);
+			for (int i = 0; i < tab.length; i++) {
+				System.out.printf("%d; ", tab[i]);
+			}
+			System.out.println();
+			j++;
+			System.out.println();
+		}
+		return resultat;
+	}
+
 	// Le prof d'anglais ne donne que des cours d'anglais
 	private void contrainteProfAnglais(){
-		int indiceProfAnglais = 0;
-		for(int i = 0; i < instance.theEnseignants().length; i++){
-			if(instance.theEnseignants()[i].getDisciplines().contains("anglais"))
-				indiceProfAnglais = i;
+		int idProfAnglais = 0;
+		for(int i = 0; i < instance.getEnseignants().length; i++){
+			if(instance.getEnseignants()[i].getDisciplines().contains("anglais"))
+				idProfAnglais = instance.getEnseignants()[i].getId();
 		}
 
 		for(int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
 				// On s'assure que le prof d'anglais ne donne que le cour d'anglais
 				if(!activitesMat[i][j].getMatiere().getSubject().equals("Anglais")){
-					model.arithm(enseignants[i][j], "!=", indiceProfAnglais).post();
+					model.arithm(enseignants[i][j], "!=", idProfAnglais).post();
 				}
-			}
-		}
-	}
-	// On vérifie que les cours sont donnés dans le type de salle qui leur correspond
-	private void contraintesCoursSalles(){
-		/*
-			La structure mapSalles recense les index des salles en fonction de leur nature
-			par exemple le clef "info" retournera la liste des indices des salles d'info
-			dans le table des salles fournie en entrée
-		 */
-		HashMap<String, ArrayList<Integer>> mapSalles = new HashMap<>();
-		for (int i = 0; i < this.nbSalles; i++) {
-			for(String key : instance.theSalles()[i].getNature()){
-				if(mapSalles.containsKey(key)){
-					mapSalles.get(key).add(i);
-				}else{
-					ArrayList<Integer> entry = new ArrayList<>();
-					entry.add(i);
-					mapSalles.put(key, entry);
-				}
-			}
-		}
-
-		for(Map.Entry<String, ArrayList<Integer>> entry : mapSalles.entrySet()){
-			System.out.println(entry.getKey() +": "+ entry.getValue());
-		}
-
-		// Pour chaque activité de chaque groupe
-		for (int i = 0; i < nbGroupes; i++) {
-			for(int j = 0; j < nbActivites; j++){
-				ArrayList<BoolVar> boolList = new ArrayList<>();
-				// On regarde la nature de l'activité (peut être multiple: info;cour par ex)
-				for(String s : activitesMat[i][j].getMatiere().getNature()){
-					// Et on créé la contrainte qui assigne le cour avec une
-					// salle de même nature (il peut il y avoir plusieurs salles)
-					for (int k = 0; k < mapSalles.get(s).size(); k++) {
-						boolList.add(model.arithm(salles[i][j], "=", mapSalles.get(s).get(k)).reify());
-					}
-				}
-				BoolVar[] boolVars = new BoolVar[boolList.size()];
-				for (int k = 0; k < boolList.size(); k++) {
-					boolVars[k] = boolList.get(k);
-				}
-				model.addClausesBoolOrArrayEqualTrue(boolVars);
 			}
 		}
 	}
@@ -299,20 +273,48 @@ public class Solveur {
 			}
 		}
 	}
-	// Gestion des creneaux offs
-	private void contrainteCreneauxOffs(){
-		for (int i = 0; i < nbEnseignants; i++) {
-			// Pour chaque activité de chaque groupe
-			for(int j = 0; j < nbActivites*nbGroupes; j++){
-				// Pour chaque creneau off (de chaque prof)
-				for(Integer creneau : instance.theEnseignants()[i].getCreneauxOff()){
-					// Si l'activité est enseignée par ce prof,
-					// alors sont creneau ne correspond pas au creaneau off
-					model.ifThen(
-							model.arithm(enseignants[j/nbActivites][j%nbActivites], "=", i),
-							model.arithm(heures[j/nbActivites][j%nbActivites], "!=", creneau)
-					);
+
+	// On vérifie que les cours sont donnés dans le type de salle qui leur correspond
+	private void contraintesCoursSalles(){
+		/*
+			La structure mapSalles recense les index des salles en fonction de leur nature
+			par exemple le clef "info" retournera la liste des indices des salles d'info
+			dans le table des salles fournie en entrée
+		 */
+		HashMap<String, ArrayList<Integer>> mapSalles = new HashMap<>();
+		for (int i = 0; i < this.nbSalles; i++) {
+			for(String key : instance.getSalles()[i].getNature()){
+				if(mapSalles.containsKey(key)){
+					mapSalles.get(key).add(instance.getSalle(i).getId());
+				}else{
+					ArrayList<Integer> entry = new ArrayList<>();
+					entry.add(instance.getSalles()[i].getId());
+					mapSalles.put(key, entry);
 				}
+			}
+		}
+
+		for(Map.Entry<String, ArrayList<Integer>> entry : mapSalles.entrySet()){
+			System.out.println(entry.getKey() +": "+ entry.getValue());
+		}
+
+		// Pour chaque activité de chaque groupe
+		for (int i = 0; i < nbGroupes; i++) {
+			for(int j = 0; j < nbActivites; j++){
+				ArrayList<BoolVar> boolList = new ArrayList<>();
+				// On regarde la nature de l'activité (peut être multiple: info;cour par ex)
+				for(String s : activitesMat[i][j].getMatiere().getNature()){
+					// Et on créé la contrainte qui assigne le cour avec une
+					// salle de même nature (il peut il y avoir plusieurs salles)
+					for (int k = 0; k < mapSalles.get(s).size(); k++) {
+						boolList.add(model.arithm(salles[i][j], "=", mapSalles.get(s).get(k)).reify());
+					}
+				}
+				BoolVar[] boolVars = new BoolVar[boolList.size()];
+				for (int k = 0; k < boolList.size(); k++) {
+					boolVars[k] = boolList.get(k);
+				}
+				model.addClausesBoolOrArrayEqualTrue(boolVars);
 			}
 		}
 	}
@@ -628,28 +630,34 @@ public class Solveur {
 		}
 	}
 
+	// Gestion des creneaux offs
+	private void contrainteCreneauxOffs(){
+		for (int i = 0; i < nbEnseignants; i++) {
+			// Pour chaque activité de chaque groupe
+			for(int j = 0; j < nbActivites*nbGroupes; j++){
+				// Pour chaque creneau off (de chaque prof)
+				for(Integer creneau : instance.getEnseignants()[i].getCreneauxOff()){
+					// Si l'activité est enseignée par ce prof,
+					// alors sont creneau ne correspond pas au creaneau off
+					model.ifThen(
+							model.arithm(enseignants[j/nbActivites][j%nbActivites], "=", i),
+							model.arithm(heures[j/nbActivites][j%nbActivites], "!=", creneau)
+					);
+				}
+			}
+		}
+	}
+
 	private void fillResultat(int offset){
 		Salle[] lesSalles = instance.getSalles();
 		Enseignant[] lesEnseignants = instance.getEnseignants();
 		for (int i = 0; i < nbActivites * nbGroupes; i++) {
 			Activite activite = instance.getActivite(i / nbActivites, i % nbActivites);
 			resultat[(i / nbActivites)+offset][heures[i / nbActivites][i % nbActivites].getValue()] =
-					new CaseEdTGroupe(activite, lesSalles[salles[i / nbActivites][i % nbActivites].getValue()], lesEnseignants[enseignants[i / nbActivites][i % nbActivites].getValue()]);
+					new CaseEdTGroupe(activite, instance.getSalleById(salles[i / nbActivites][i % nbActivites].getValue()),
+							instance.getEnseignantById(enseignants[i / nbActivites][i % nbActivites].getValue()));
 			//System.out.println(activite.getMatiere() + " groupe " + activite.getGroupe() + " : " + creneaux[heures[i].getValue()] + " salle " + lesSalles[salles[i].getValue()] + " avec " + lesEnseignants[enseignants[i].getValue()]);
 		}
-	}
-
-	public static CaseEdTGroupe[][] fillModele(SolutionEdt solutionEdt, Probleme instance){
-		CaseEdTGroupe[][] modele = new CaseEdTGroupe[solutionEdt.getNbGroupes()][20];
-		Salle[] lesSalles = instance.getSalles();
-		Enseignant[] lesEnseignants = instance.getEnseignants();
-		for (int i = 0; i < 20 * solutionEdt.getNbGroupes(); i++) {
-			Activite activite = instance.getActivite(i / 20, i % 20);
-			modele[(i / 20)][solutionEdt.getHeures()[i / 20][i % 20]] =
-					new CaseEdTGroupe(activite, lesSalles[solutionEdt.getSalles()[i / 20][i % 20]],
-					lesEnseignants[solutionEdt.getEnseignants()[i / 20][i % 20]]);
-		}
-		return modele;
 	}
 
 	public void printModele(){

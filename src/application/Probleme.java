@@ -152,7 +152,25 @@ public class Probleme {
 	public int nbActivites() {
 		return activites.length;
 	}
-	
+
+	public Salle getSalleById(int id){
+		for (int i = 0; i < getSalles().length; i++) {
+			if( getSalle(i).getId() == id){
+				return getSalle(i);
+			}
+		}
+		return null;
+	}
+
+	public Enseignant getEnseignantById(int id){
+		for (int i = 0; i < getEnseignants().length; i++) {
+			if(getEnseignant(i).getId() == id){
+				return getEnseignant(i);
+			}
+		}
+		return null;
+	}
+
 	public Enseignant [] theEnseignants() {
 		Enseignant [] enseignants = new Enseignant [16];
 		enseignants[0] = new Enseignant("Yang Zheng", new char[]{'I'},new String[] {"anglais"}, 0);
@@ -233,17 +251,17 @@ public class Probleme {
 	
 	public Groupe [] theGroupes() {
 		Groupe [] groupes = new Groupe [10];
-		groupes[0] = new Groupe('A', 1, 15, "generique");
-		groupes[1] = new Groupe('A', 2, 15, "generique");
+		groupes[0] = new Groupe('A', 1, 15, "generique", 1);
+		groupes[1] = new Groupe('A', 2, 15, "generique", 2);
 		//groupes[2] = new Groupe('A', 3, 15, "generique");
-		groupes[2] = new Groupe( 'B', 3, 15, "generique");
-		groupes[3] = new Groupe( 'B', 4, 15, "generique");
-		groupes[4] = new Groupe( 'C', 5, 15, "generique");
-		groupes[5] = new Groupe( 'C', 6, 15, "generique");
-		groupes[6] = new Groupe( 'E', 7, 15, "generique");
-		groupes[7] = new Groupe( 'E', 8, 15, "generique");
-		groupes[8] = new Groupe( 'G', 9, 15, "generique");
-		groupes[9] = new Groupe( 'G', 10, 15, "generique");
+		groupes[2] = new Groupe( 'B', 3, 15, "generique", 1);
+		groupes[3] = new Groupe( 'B', 4, 15, "generique", 2);
+		groupes[4] = new Groupe( 'C', 5, 15, "generique", 1);
+		groupes[5] = new Groupe( 'C', 6, 15, "generique", 2);
+		groupes[6] = new Groupe( 'E', 7, 15, "generique", 1);
+		groupes[7] = new Groupe( 'E', 8, 15, "generique", 2);
+		groupes[8] = new Groupe( 'G', 9, 15, "generique", 1);
+		groupes[9] = new Groupe( 'G', 10, 15, "generique", 2);
 		return groupes;
 	}
 	public Groupe[] theGroupes(int nbSousGroupes, int nbSolutions){
@@ -252,7 +270,7 @@ public class Probleme {
 			char lettre = 'A';
 			int offset = (i/2)%(nbSousGroupes/2);
 			int numero = (int)lettre + offset;
-			groupes[i] = new Groupe(theGroupes()[i%theGroupes().length].getAlphabet(), i+1, 15, "generique");
+			groupes[i] = new Groupe(theGroupes()[i%theGroupes().length].getAlphabet(), i+1, 15, "generique", (i%2)+1);
 		}
 		return groupes;
 	}
@@ -263,7 +281,7 @@ public class Probleme {
 			char lettre = (char)((int)'A' + indiceDepard/2);
 			int offset = (i/2)%(nbSousGroupes/2);
 			int numero = (int)lettre + offset;
-			groupes[i] = new Groupe(theGroupes()[(indiceDepard + i) % theGroupes().length].getAlphabet(), i+1, 15, "generique");
+			groupes[i] = new Groupe(theGroupes()[(indiceDepard + i) % theGroupes().length].getAlphabet(), i+1, 15, "generique", (i%2)+1);
 		}
 		return groupes;
 	}

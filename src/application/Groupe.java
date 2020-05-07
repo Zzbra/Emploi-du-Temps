@@ -5,9 +5,10 @@ public class Groupe {
 	private int number;
 	private int capacity;
 	private String specificity;
-	
-	public Groupe(char alphabet, int number, int capacity, String specificity) {
+	private int numSousGroupe;
+	public Groupe(char alphabet, int number, int capacity, String specificity, int numSousGroupe) {
 		super();
+		this.numSousGroupe = numSousGroupe;
 		this.setAlphabet(alphabet);
 		this.setNumber(number);
 		this.setCapacity(capacity);
