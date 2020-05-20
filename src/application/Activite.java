@@ -24,4 +24,12 @@ public class Activite {
 	public void setMatiere(Matiere matiere) {
 		this.matiere = matiere;
 	}
+
+	@Override
+	public String toString() {
+		return "Activite{" +
+				"groupe=" + groupe +
+				", matiere=" + matiere +
+				'}';
+	}
 }

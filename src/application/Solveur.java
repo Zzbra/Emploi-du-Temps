@@ -94,7 +94,7 @@ public class Solveur {
 			}
 		}
 
-		File fichier = new File("src/Solutions_Serialisees/sol10.ser");
+		File fichier = new File("src/Solutions_Serialisees/sol10bis.ser");
 		ObjectInputStream ois = null;
 		this.solutionEdt = null;
 		try {
@@ -178,12 +178,14 @@ public class Solveur {
 	// Deux activité ne peuvent avoir lieu dans la même salle au même moment
 	private void contrainteActiviteTempsSalle(){
 		for(int i = 0; i < nbActivites*nbGroupes; i++) {
-			for(int j = 0; j < nbActivites*nbGroupes; j++) {
-				ArrayList<String> natureI = activitesMat[i/nbActivites][i%nbActivites].getMatiere().getNature();
-				ArrayList<String> natureJ = activitesMat[j/nbActivites][j%nbActivites].getMatiere().getNature();
-				if(i != j && !natureI.contains("autre") && !natureJ.contains("autre")) {
-					model.addClauses(LogOp.or(model.arithm(heures[i/nbActivites][i%nbActivites], "!=", heures[j/nbActivites][j%nbActivites]).reify(),
-							(model.arithm(salles[i/nbActivites][i%nbActivites], "!=", salles[j/nbActivites][j%nbActivites]).reify())));
+			for(int j = i+1; j < nbActivites*nbGroupes; j++) {
+				if(activitesMat[i/nbActivites][i%nbActivites].getGroupe().getAlphabet() == activitesMat[j/nbActivites][j%nbActivites].getGroupe().getAlphabet()) {
+					ArrayList<String> natureI = activitesMat[i / nbActivites][i % nbActivites].getMatiere().getNature();
+					ArrayList<String> natureJ = activitesMat[j / nbActivites][j % nbActivites].getMatiere().getNature();
+					if (i != j && !natureI.contains("autre") && !natureJ.contains("autre")) {
+						model.addClauses(LogOp.or(model.arithm(heures[i / nbActivites][i % nbActivites], "!=", heures[j / nbActivites][j % nbActivites]).reify(),
+								(model.arithm(salles[i / nbActivites][i % nbActivites], "!=", salles[j / nbActivites][j % nbActivites]).reify())));
+					}
 				}
 			}
 		}
@@ -491,7 +493,7 @@ public class Solveur {
 	public void definirContraintes(){
 
 		// Deux activité ne peuvent avoir lieu dans la même salle au même moment
-		//this.contrainteActiviteTempsSalle();
+		this.contrainteActiviteTempsSalle();
 
 		// Deux Activites de meme groupe ne peuvent pas se passe au meme temps.
 		this.contrainteActiviteMemeGroupeMemeTemps();
@@ -585,7 +587,7 @@ public class Solveur {
 				finalDataCat
 		));
 		this.printModele();
-		model.getSolver().setLDS(5); // discrepancy is set to 12
+		model.getSolver().setLDS(30); // discrepancy is set to 12
 		this.solve();
 		this.printDifferenceAvecModele();
 	}
@@ -620,7 +622,7 @@ public class Solveur {
 
 				SolutionEdt solutionEdt = new SolutionEdt(heuresSol, enseignantsSol, sallesSol, nbGroupes);
 				//
-				//serializaSolution(solutionEdt, "src/Solutions_Serialisees/sol10.ser");
+				//serializaSolution(solutionEdt, "src/Solutions_Serialisees/sol10bis.ser");
 
 
 				k++;

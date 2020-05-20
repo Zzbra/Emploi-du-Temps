@@ -256,7 +256,7 @@ public class Probleme implements Serializable {
 	}
 	
 	public Salle [] theSalles() {
-		Salle [] salles = new Salle [13];
+		Salle [] salles = new Salle [21];
 		salles[0] = new Salle (new ArrayList<Character>(){{add('I');}}, 504, new ArrayList<String>(){{add("anglais");}}, 15, 0);
 		salles[1] = new Salle(new ArrayList<Character>(){{add('I');}}, 0, new ArrayList<String>(){{add("sport");}}, 500, 1); //'I' indique que c'est pour tout le monde
 		salles[2] = new Salle(new ArrayList<Character>(){{add('I');}}, 1, new ArrayList<String>(){{add("autre");}}, 500, 2);
@@ -270,6 +270,14 @@ public class Probleme implements Serializable {
 		salles[10] = new Salle(new ArrayList<Character>(){{add('E');}}, 503, new ArrayList<String>(){{add("cours");}}, 15, 10);
 		salles[11] = new Salle(new ArrayList<Character>(){{add('G');}}, 512, new ArrayList<String>(){{add("info");}}, 15, 11);
 		salles[12] = new Salle(new ArrayList<Character>(){{add('G');}}, 501, new ArrayList<String>(){{add("cours");}}, 15, 12);
+		salles[13] = new Salle(new ArrayList<Character>(){{add('F');}}, 1000, new ArrayList<String>(){{add("info");}}, 15, 13); // Cdr
+		salles[14] = new Salle(new ArrayList<Character>(){{add('F');}}, 604, new ArrayList<String>(){{add("cours");}}, 15, 14);
+		salles[15] = new Salle(new ArrayList<Character>(){{add('H');}}, 1001, new ArrayList<String>(){{add("info");}}, 15, 15); // Cdr aussi ?
+		salles[16] = new Salle(new ArrayList<Character>(){{add('H');}}, 605, new ArrayList<String>(){{add("cours");}}, 15, 16);
+		salles[17] = new Salle(new ArrayList<Character>(){{add('M');}}, 505, new ArrayList<String>(){{add("info");}}, 15, 17);
+		salles[18] = new Salle(new ArrayList<Character>(){{add('M');}}, 1002, new ArrayList<String>(){{add("cours");}}, 15, 18); // salle fictive 1 seule salle pour M?
+		salles[19] = new Salle(new ArrayList<Character>(){{add('D');}}, 9, new ArrayList<String>(){{add("info");}}, 15, 19);
+		salles[20] = new Salle(new ArrayList<Character>(){{add('D');}}, 605, new ArrayList<String>(){{add("cours");}}, 15, 16); // D partage une salle avec H ?
 //		salles[13] = new Salle('G', 511, new String[]{"cours"}, 15);
 		return salles;
 	}
@@ -286,7 +294,7 @@ public class Probleme implements Serializable {
 	}
 	
 	public Groupe [] theGroupes() {
-		Groupe [] groupes = new Groupe [10];
+		Groupe [] groupes = new Groupe [18];
 		groupes[0] = new Groupe('A', 1, 15, "generique", 1);
 		groupes[1] = new Groupe('A', 2, 15, "generique", 2);
 		//groupes[2] = new Groupe('A', 3, 15, "generique");
@@ -298,6 +306,14 @@ public class Probleme implements Serializable {
 		groupes[7] = new Groupe( 'E', 8, 15, "generique", 2);
 		groupes[8] = new Groupe( 'G', 9, 15, "generique", 1);
 		groupes[9] = new Groupe( 'G', 10, 15, "generique", 2);
+		groupes[10] = new Groupe( 'D', 10, 15, "generique", 1);
+		groupes[11] = new Groupe( 'D', 10, 15, "generique", 2);
+		groupes[12] = new Groupe( 'F', 10, 15, "generique", 1);
+		groupes[13] = new Groupe( 'F', 10, 15, "generique", 2);
+		groupes[14] = new Groupe( 'H', 10, 15, "generique", 1);
+		groupes[15] = new Groupe( 'H', 10, 15, "generique", 2);
+		groupes[16] = new Groupe( 'M', 10, 15, "generique", 2);
+		groupes[17] = new Groupe( 'M', 10, 15, "generique", 2);
 		return groupes;
 	}
 	public Groupe[] theGroupes(int nbSousGroupes, int nbSolutions){
@@ -346,7 +362,7 @@ public class Probleme implements Serializable {
 			matieres[14] = new Matiere("Remedition bureautique", new ArrayList<String>(){{add("cours");}}, 0);
 			//matieres[15] = new Matiere("Bureautique", "info", 0);
 			matieres[15] = new Matiere("Anglais", new ArrayList<String>(){{add("anglais");}}, 0);
-			matieres[16] = new Matiere("Sport", new ArrayList<String>(){{add("sport");}}, 0, new int[]{3, 10, 11, 12, 13, 14, 15});
+			matieres[16] = new Matiere("Sport", new ArrayList<String>(){{add("sport");}}, 0, new int[]{3, 10, 9, 12, 13, 14, 15});
 			matieres[17] = new Matiere("Sport", new ArrayList<String>(){{add("sport");}}, 1, new int[]{2, 3, 10, 11, 12, 13, 14, 15});
 			matieres[18] = new Matiere("Demarches exterieures", new ArrayList<String>(){{add("autre");}}, 0, new int[]{6, 7});
 			//matieres[19] = new Matiere("Null", "null", 0);
