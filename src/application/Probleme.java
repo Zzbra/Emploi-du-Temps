@@ -1,8 +1,9 @@
 package application;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Probleme {
+public class Probleme implements Serializable {
 	private Enseignant[] enseignants;
 	private Salle[] salles;
 	private Creneau[] creneaux;
@@ -100,6 +101,8 @@ public class Probleme {
 	public void setSalle(Salle[] salles) {
 		this.salles = salles;
 	}
+
+	public void setNbGroupes(int nbGroupes){ this.nbGroupes = nbGroupes;}
 	
 	public int nbSalles() {
 		return salles.length;
@@ -152,6 +155,8 @@ public class Probleme {
 	public int nbActivites() {
 		return activites.length;
 	}
+
+
 
 	public Salle getSalleById(int id){
 		for (int i = 0; i < getSalles().length; i++) {

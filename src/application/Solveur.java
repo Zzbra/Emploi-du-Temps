@@ -305,13 +305,16 @@ public class Solveur {
 				for(String s : activitesMat[i][j].getMatiere().getNature()){
 					// Et on créé la contrainte qui assigne le cour avec une
 					// salle de même nature (il peut il y avoir plusieurs salles)
-					for (int k = 0; k < mapSalles.get(s).size(); k++) {
-						boolList.add(model.arithm(salles[i][j], "=", mapSalles.get(s).get(k)).reify());
+					if(mapSalles.get(s) != null) {
+						for (int k = 0; k < mapSalles.get(s).size(); k++) {
+							boolList.add(model.arithm(salles[i][j], "=", mapSalles.get(s).get(k)).reify());
+						}
 					}
 				}
-
-				BoolVar[] boolVars = boolList.toArray(new BoolVar[boolList.size()]);
-				model.addClausesBoolOrArrayEqualTrue(boolVars);
+				if(boolList.size() > 0) {
+					BoolVar[] boolVars = boolList.toArray(new BoolVar[boolList.size()]);
+					model.addClausesBoolOrArrayEqualTrue(boolVars);
+				}
 			}
 		}
 	}

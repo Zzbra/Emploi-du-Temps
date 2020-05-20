@@ -1,5 +1,6 @@
 package application;
 
+import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
@@ -23,6 +24,7 @@ public class CreateProblem {
 		
 	
 	//	print();
+		this.probleme.printProbleme();
 		Instant beforeContrainte = Instant.now();
 		this.solveur.definirContraintes();
 		Instant afterContrainte = Instant.now();
@@ -44,6 +46,23 @@ public class CreateProblem {
 		probleme.setGroupe(theGroupes());
 		probleme.setMatiere(theMatieres());
 		probleme.setActivites(theActivites());
+		probleme.setNbGroupes(probleme.getGroupe().length);
+
+		File probFile = new File("src/Solutions_Serialisees/probleme.ser");
+		ObjectOutputStream oos = null;
+		try {
+			oos = new ObjectOutputStream(new FileOutputStream(probFile));
+			oos.writeObject(probleme);
+			System.out.println("probleme ecrit");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				oos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void print() {
