@@ -106,6 +106,8 @@ public class Solveur {
 		}
 	}
 
+
+
 	private void contrainteCalculDeviation(){
 		for (int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
@@ -182,7 +184,7 @@ public class Solveur {
 				if(activitesMat[i/nbActivites][i%nbActivites].getGroupe().getAlphabet() == activitesMat[j/nbActivites][j%nbActivites].getGroupe().getAlphabet()) {
 					ArrayList<String> natureI = activitesMat[i / nbActivites][i % nbActivites].getMatiere().getNature();
 					ArrayList<String> natureJ = activitesMat[j / nbActivites][j % nbActivites].getMatiere().getNature();
-					if (i != j && !natureI.contains("autre") && !natureJ.contains("autre")) {
+					if (i != j && !natureI.contains("autre") && !natureJ.contains("autre") && !natureI.contains("sport") && !natureJ.contains("autre")) {
 						model.addClauses(LogOp.or(model.arithm(heures[i / nbActivites][i % nbActivites], "!=", heures[j / nbActivites][j % nbActivites]).reify(),
 								(model.arithm(salles[i / nbActivites][i % nbActivites], "!=", salles[j / nbActivites][j % nbActivites]).reify())));
 					}
@@ -572,6 +574,8 @@ public class Solveur {
 		finalDataCat = dataCat;
 		finalDataCatSol = dataCatSol;
 	}
+
+
 
 	public void LDS(){
 		this.setReferenceSolution();

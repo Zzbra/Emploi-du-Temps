@@ -12,7 +12,7 @@ import interfaces.MainInterface;
 public class Main {
     public static void main(String[] args) {
 
-        Solveur solveur = new Solveur(new Probleme(4,   1));
+        Solveur solveur = new Solveur(new Probleme(2,   1));
         solveur.getInstance().printProbleme();
         solveur.definirContraintes();
         solveur.solve();
@@ -22,5 +22,4 @@ public class Main {
         if(solveur.getInstance().getNbSols() > 1)
             solveur.printDifferences();
     }
-
 }

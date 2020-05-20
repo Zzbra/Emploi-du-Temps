@@ -32,6 +32,7 @@ public class CreateProblem {
 		
 		Instant beforeSolve = Instant.now();
 		this.solveur.solve();
+		this.solveur.printSolution();
 		Instant afterSolve = Instant.now();
 		System.out.println("Durée solve = "+Duration.between(beforeSolve, afterSolve).toMinutes() + " : " +Duration.between(beforeSolve, afterSolve).getSeconds() + " : " + Duration.between(beforeSolve, afterSolve).getNano() );
 		
