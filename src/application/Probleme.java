@@ -172,32 +172,37 @@ public class Probleme {
 	}
 
 	public Enseignant [] theEnseignants() {
-		Enseignant [] enseignants = new Enseignant [16];
+		Enseignant [] enseignants = new Enseignant [28];
 		enseignants[0] = new Enseignant("Yang Zheng", new ArrayList<Character>(){{add('I');}},new String[] {"anglais"}, 0);
+
 		enseignants[1] = new Enseignant("Thierry Mathias", new ArrayList<Character>(){{add('A');}},
 				new String[] {"referent", "maths", "bureautique"}, 1);
 		enseignants[2] = new Enseignant("Christine Caldentey", new ArrayList<Character>(){{add('A');}},
 				new String[] {"referent", "sport", "arl"}, new int[]{8, 9, 10, 11}, 2);
 		enseignants[3] = new Enseignant("Slimane Sadelli", new ArrayList<Character>(){{add('A');}},
 				new String[] {"referent", "francais"}, new int[]{12, 13, 14, 15}, 3);
+
 		enseignants[4] = new Enseignant("Lionel Silvy", new ArrayList<Character>(){{add('B');}},
 				new String[]{"referent", "sport", "bureautique"}, new int[]{10, 11}, 4);
 		enseignants[5] = new Enseignant("Diane Pietrini", new ArrayList<Character>(){{add('B');}},
 				new String[]{"referent", "maths", "francais"}, 5);
 		enseignants[6] = new Enseignant("Florence Exbrayat", new ArrayList<Character>(){{add('B');}},
 				new String[]{"referent", "francais"}, 6);
+
 		enseignants[7] = new Enseignant("Carole Magaud", new ArrayList<Character>(){{add('C');}},
 				new String[]{"referent", "francais"}, 7);
 		enseignants[8] = new Enseignant("Mokhtar Mansouri", new ArrayList<Character>(){{add('C');}},
 				new String[]{"referent", "bureautique", "maths"}, 8);
 		enseignants[9] = new Enseignant("Philippe Del Bianco", new ArrayList<Character>(){{add('C');}},
 				new String[]{"referent", "maths", "francais"}, 9);
+
 		enseignants[10] = new Enseignant("Pascal Marullaz", new ArrayList<Character>(){{add('E');}},
 				new String[]{"referent", "maths", "bureautique"}, 10);
 		enseignants[11] = new Enseignant("Serge Raysseguier", new ArrayList<Character>(){{add('E');}},
 				new String[]{"referent", "francias"}, 11);
 		enseignants[12] = new Enseignant("Abes Hammachi", new ArrayList<Character>(){{add('E');}},
 				new String[]{"referent", "bureautique", "maths"}, 12);
+
 		enseignants[13] = new Enseignant("Jerome Pannetier", new ArrayList<Character>(){{add('G');}},
 				new String[]{"referent", "maths", "bureautique"}, 13);
 		enseignants[14] = new Enseignant("Timote Ducatez", new ArrayList<Character>(){{add('G');}},
@@ -205,7 +210,33 @@ public class Probleme {
 		enseignants[15] = new Enseignant("Agnes Chambion", new ArrayList<Character>(){{add('G');}},
 				new String[]{"referent", "francais"}, 15);
 
+		enseignants[16] = new Enseignant("Sabine Chiavassa", new ArrayList<Character>(){{add('F');}},
+				new String[]{"referent", "francais", "Maths"}, 16);
+		enseignants[17] = new Enseignant("Marina Halliez", new ArrayList<Character>(){{add('F');}},
+				new String[]{"referent"}, 17);
+		enseignants[18] = new Enseignant("Marie Rutowski", new ArrayList<Character>(){{add('F');}},
+				new String[]{"referent" }, 18);
 
+		enseignants[19] = new Enseignant("Mélanie Grenier", new ArrayList<Character>(){{add('H');}},
+				new String[]{"referent", "francais"}, 19);
+		enseignants[20] = new Enseignant("Margot Vinagre", new ArrayList<Character>(){{add('H');}},
+				new String[]{"referent"}, 20);
+		enseignants[21] = new Enseignant("Claude Garmirian", new ArrayList<Character>(){{add('H');}},
+				new String[]{"referent"}, 21);
+
+		enseignants[22] = new Enseignant("Jean-Michel Antonini", new ArrayList<Character>(){{add('M');}},
+				new String[]{"referent", "maths", "bureautique"}, 22);
+		enseignants[23] = new Enseignant("Vanessa Kopec", new ArrayList<Character>(){{add('M');}},
+				new String[]{"referent", "francais", "anglais"}, 23); // Bizarre qu'il y ait anglais.
+		enseignants[24] = new Enseignant("Sandra Lajaunie", new ArrayList<Character>(){{add('M');}},
+				new String[]{"referent", "anglais"}, 24);
+
+		enseignants[25] = new Enseignant("Françoise Reina", new ArrayList<Character>(){{add('D');}},
+				new String[]{"referent", "maths", "francais"}, 25);
+		enseignants[26] = new Enseignant("Félix Saludès", new ArrayList<Character>(){{add('D');}},
+				new String[]{"referent", "bureautique"}, 26);
+		enseignants[27] = new Enseignant("Daniel Libourel", new ArrayList<Character>(){{add('D');}},
+				new String[]{"referent", "maths", "francais"}, 27);
 		return enseignants;
 	}
 

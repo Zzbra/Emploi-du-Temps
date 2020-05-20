@@ -23,6 +23,14 @@ public class Enseignant {
 		}
 	}
 
+	public Enseignant(int id, String name, ArrayList<Character> groupe, ArrayList<String> disciplines, ArrayList<Integer> creneauxOff){
+		this.id = id;
+		this.name = name;
+		this.groupe = groupe;
+		this.disciplines = disciplines;
+		this.creneauxOff = creneauxOff;
+	}
+
 	public Enseignant(String name, ArrayList<Character> groupe, String[] disciplines, int id) {
 		super();
 		this.id = id;
