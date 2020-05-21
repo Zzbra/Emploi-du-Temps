@@ -177,14 +177,32 @@ public class Solveur {
 		return resultat;
 	}
 
+	// Cette fonction sert à vérifier si les activités i et j peuvent avoir lieu dans la même salle en même temps
+	// C'est le cas de sport ou démarche extérieur. i représente l'activité activiteMat[i / nbActivites][i % nbActivites]
+	// On pourrais imaginer créer un champ paralélisable sur les matières ou gérer en fonction de la capacité des salles
+	// Mais celà pourrait créer des problèmes ou plusieurs groupes ont cour dans la même salle.
+	private boolean activiteCompatible(int i, int j){
+		ArrayList<String> natureI = activitesMat[i / nbActivites][i % nbActivites].getMatiere().getNature();
+		ArrayList<String> natureJ = activitesMat[j / nbActivites][j % nbActivites].getMatiere().getNature();
+
+		for(String s : natureI)
+			s = s.toLowerCase();
+
+		for(String s : natureJ)
+			s = s.toLowerCase();
+
+		if((natureI.contains("autre") && natureJ.contains("autre")) || (natureI.contains("sport") && natureJ.contains("sport"))){
+			return true;
+		}
+		return false;
+	}
+
 	// Deux activité ne peuvent avoir lieu dans la même salle au même moment
 	private void contrainteActiviteTempsSalle(){
 		for(int i = 0; i < nbActivites*nbGroupes; i++) {
 			for(int j = i+1; j < nbActivites*nbGroupes; j++) {
 				if(activitesMat[i/nbActivites][i%nbActivites].getGroupe().getAlphabet() == activitesMat[j/nbActivites][j%nbActivites].getGroupe().getAlphabet()) {
-					ArrayList<String> natureI = activitesMat[i / nbActivites][i % nbActivites].getMatiere().getNature();
-					ArrayList<String> natureJ = activitesMat[j / nbActivites][j % nbActivites].getMatiere().getNature();
-					if (i != j && !natureI.contains("autre") && !natureJ.contains("autre") && !natureI.contains("sport") && !natureJ.contains("autre")) {
+					if (i != j && !activiteCompatible(i, j)) {
 						model.addClauses(LogOp.or(model.arithm(heures[i / nbActivites][i % nbActivites], "!=", heures[j / nbActivites][j % nbActivites]).reify(),
 								(model.arithm(salles[i / nbActivites][i % nbActivites], "!=", salles[j / nbActivites][j % nbActivites]).reify())));
 					}

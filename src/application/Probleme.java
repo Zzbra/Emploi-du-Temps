@@ -12,9 +12,7 @@ public class Probleme implements Serializable {
 	private Activite [][] activites;
 	private int nbGroupes, nbSols;
 	
-	public Probleme() {
-		this(10, 1);
-	}
+	public Probleme() {}
 
 	public Probleme(int nbGroupes, int nbSols) {
 		super();
@@ -216,18 +214,18 @@ public class Probleme implements Serializable {
 				new String[]{"referent", "francais"}, 15);
 
 		enseignants[16] = new Enseignant("Sabine Chiavassa", new ArrayList<Character>(){{add('F');}},
-				new String[]{"referent", "francais", "Maths"}, 16);
+				new String[]{"referent", "maths", "bureautique"}, 16);
 		enseignants[17] = new Enseignant("Marina Halliez", new ArrayList<Character>(){{add('F');}},
-				new String[]{"referent"}, 17);
+				new String[]{"referent", "francias"}, 17);
 		enseignants[18] = new Enseignant("Marie Rutowski", new ArrayList<Character>(){{add('F');}},
-				new String[]{"referent" }, 18);
+				new String[]{"referent", "bureautique", "maths" }, 18);
 
 		enseignants[19] = new Enseignant("Mélanie Grenier", new ArrayList<Character>(){{add('H');}},
-				new String[]{"referent", "francais"}, 19);
+				new String[]{"referent", "maths", "bureautique"}, 19);
 		enseignants[20] = new Enseignant("Margot Vinagre", new ArrayList<Character>(){{add('H');}},
-				new String[]{"referent"}, 20);
+				new String[]{"referent", "francias"}, 20);
 		enseignants[21] = new Enseignant("Claude Garmirian", new ArrayList<Character>(){{add('H');}},
-				new String[]{"referent"}, 21);
+				new String[]{"referent", "bureautique", "maths"}, 21);
 
 		enseignants[22] = new Enseignant("Jean-Michel Antonini", new ArrayList<Character>(){{add('M');}},
 				new String[]{"referent", "maths", "bureautique"}, 22);
@@ -237,7 +235,7 @@ public class Probleme implements Serializable {
 				new String[]{"referent", "anglais"}, 24);
 
 		enseignants[25] = new Enseignant("Françoise Reina", new ArrayList<Character>(){{add('D');}},
-				new String[]{"referent", "maths", "francais"}, 25);
+				new String[]{"referent", "maths", "bureautique"}, 25);
 		enseignants[26] = new Enseignant("Félix Saludès", new ArrayList<Character>(){{add('D');}},
 				new String[]{"referent", "bureautique"}, 26);
 		enseignants[27] = new Enseignant("Daniel Libourel", new ArrayList<Character>(){{add('D');}},
@@ -277,7 +275,7 @@ public class Probleme implements Serializable {
 		salles[17] = new Salle(new ArrayList<Character>(){{add('M');}}, 505, new ArrayList<String>(){{add("info");}}, 15, 17);
 		salles[18] = new Salle(new ArrayList<Character>(){{add('M');}}, 1002, new ArrayList<String>(){{add("cours");}}, 15, 18); // salle fictive 1 seule salle pour M?
 		salles[19] = new Salle(new ArrayList<Character>(){{add('D');}}, 9, new ArrayList<String>(){{add("info");}}, 15, 19);
-		salles[20] = new Salle(new ArrayList<Character>(){{add('D');}}, 605, new ArrayList<String>(){{add("cours");}}, 15, 16); // D partage une salle avec H ?
+		salles[20] = new Salle(new ArrayList<Character>(){{add('D');}}, 1003, new ArrayList<String>(){{add("cours");}}, 15, 20); // D partage une salle avec H ? c'est la 605 normalement
 //		salles[13] = new Salle('G', 511, new String[]{"cours"}, 15);
 		return salles;
 	}
@@ -306,14 +304,14 @@ public class Probleme implements Serializable {
 		groupes[7] = new Groupe( 'E', 8, 15, "generique", 2);
 		groupes[8] = new Groupe( 'G', 9, 15, "generique", 1);
 		groupes[9] = new Groupe( 'G', 10, 15, "generique", 2);
-		groupes[10] = new Groupe( 'D', 10, 15, "generique", 1);
-		groupes[11] = new Groupe( 'D', 10, 15, "generique", 2);
-		groupes[12] = new Groupe( 'F', 10, 15, "generique", 1);
-		groupes[13] = new Groupe( 'F', 10, 15, "generique", 2);
-		groupes[14] = new Groupe( 'H', 10, 15, "generique", 1);
-		groupes[15] = new Groupe( 'H', 10, 15, "generique", 2);
-		groupes[16] = new Groupe( 'M', 10, 15, "generique", 2);
-		groupes[17] = new Groupe( 'M', 10, 15, "generique", 2);
+		groupes[10] = new Groupe( 'D', 11, 15, "generique", 1);
+		groupes[11] = new Groupe( 'D', 12, 15, "generique", 2);
+		groupes[12] = new Groupe( 'F', 13, 15, "generique", 1);
+		groupes[13] = new Groupe( 'F', 14, 15, "generique", 2);
+		groupes[14] = new Groupe( 'H', 15, 15, "generique", 1);
+		groupes[15] = new Groupe( 'H', 16, 15, "generique", 2);
+		groupes[16] = new Groupe( 'M', 17, 15, "generique", 2);
+		groupes[17] = new Groupe( 'M', 18, 15, "generique", 2);
 		return groupes;
 	}
 	public Groupe[] theGroupes(int nbSousGroupes, int nbSolutions){

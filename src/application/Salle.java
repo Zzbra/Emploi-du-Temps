@@ -1,8 +1,9 @@
 package application;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Salle {
+public class Salle implements Serializable {
 	private ArrayList<Character> groupe;
 	private int number;
 	private ArrayList<String> nature;

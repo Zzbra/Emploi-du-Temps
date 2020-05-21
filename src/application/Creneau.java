@@ -1,6 +1,8 @@
 package application;
 
-public class Creneau {
+import java.io.Serializable;
+
+public class Creneau implements Serializable {
 	private Jour jour;
 	private int starttime;
 	private int endtime;

@@ -1,6 +1,8 @@
 package application;
 
-public class Groupe {
+import java.io.Serializable;
+
+public class Groupe implements Serializable {
 	private char alphabet;
 	private int number;
 	private int capacity;
@@ -14,6 +16,9 @@ public class Groupe {
 		this.setCapacity(capacity);
 		this.setSpecificity(specificity);
 	}
+
+
+	public int getNumSousGroupe() { return numSousGroupe;}
 
 	public char getAlphabet() {
 		return alphabet;
@@ -48,6 +53,6 @@ public class Groupe {
 	}
 	
 	public String toString() {
-		return "" + getAlphabet() + getNumber();
+		return "" + getAlphabet() + getNumSousGroupe();
 	}
 }

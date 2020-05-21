@@ -1,5 +1,8 @@
 package application;
-public class Activite {
+
+import java.io.Serializable;
+
+public class Activite implements Serializable {
 	private Groupe groupe;
 	private Matiere matiere;
 	

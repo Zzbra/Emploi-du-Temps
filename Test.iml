@@ -10,5 +10,8 @@
     <orderEntry type="library" name="org.choco-solver:choco-solver:4.10.2" level="project" />
     <orderEntry type="library" name="json-20190722" level="project" />
     <orderEntry type="library" name="java fx" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="jdbc-console" level="project" />
   </component>
 </module>

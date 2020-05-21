@@ -1,7 +1,8 @@
 package application;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Matiere {
+public class Matiere implements Serializable {
 	private String subject;
 	private ArrayList<String> nature;
 	private int sequence;

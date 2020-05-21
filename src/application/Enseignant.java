@@ -1,9 +1,10 @@
 package application;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Enseignant {
+public class Enseignant implements Serializable {
 	private String name;
 	private ArrayList<Character> groupe;
 	private ArrayList<String> disciplines;
