@@ -94,7 +94,7 @@ public class Solveur {
 			}
 		}
 
-		File fichier = new File("src/Solutions_Serialisees/sol10bis.ser");
+		File fichier = new File("src/Solutions_Serialisees/sol18.ser");
 		ObjectInputStream ois = null;
 		this.solutionEdt = null;
 		try {
@@ -245,16 +245,18 @@ public class Solveur {
 
 	// Le prof d'anglais ne donne que des cours d'anglais
 	private void contrainteProfAnglais(){
-		int idProfAnglais = 0;
+		ArrayList<Integer> idProfAnglais = new ArrayList<>();
 		for(int i = 0; i < instance.getEnseignants().length; i++){
-			if(instance.getEnseignants()[i].getDisciplines().contains("anglais"))
-				idProfAnglais = instance.getEnseignants()[i].getId();
+			if(instance.getEnseignants()[i].getDisciplines().contains("anglais") && instance.getEnseignants()[i].getGroupe().contains('I'))
+				idProfAnglais.add(instance.getEnseignants()[i].getId());
 		}
 		for(int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
 				// On s'assure que le prof d'anglais ne donne que le cour d'anglais
-				if(!activitesMat[i][j].getMatiere().getSubject().equals("Anglais")){
-					model.arithm(enseignants[i][j], "!=", idProfAnglais).post();
+				for(Integer id : idProfAnglais) {
+					if (!activitesMat[i][j].getMatiere().getSubject().equals("Anglais")) {
+						model.arithm(enseignants[i][j], "!=", id).post();
+					}
 				}
 			}
 		}
@@ -264,14 +266,43 @@ public class Solveur {
 		for(int i = 0; i < nbActivites*nbGroupes; i++) {
 			for(int j = 0; j < nbActivites*nbGroupes; j++) {
 				if(i != j) {
-					model.addClauses(LogOp.or(model.arithm(heures[i/nbActivites][i%nbActivites], "!=", heures[j/nbActivites][j%nbActivites]).reify(),
-							model.arithm(enseignants[i/nbActivites][i%nbActivites], "!=", enseignants[j/nbActivites][j%nbActivites]).reify()));
+					String natI = activitesMat[i/nbActivites][i%nbActivites].getMatiere().getSubject();
+					String natJ = activitesMat[j/nbActivites][j%nbActivites].getMatiere().getSubject();
+					if(!natI.contains("exterieures") || !natJ.contains("exterieures") ) {
+						model.addClauses(LogOp.or(model.arithm(heures[i / nbActivites][i % nbActivites], "!=", heures[j / nbActivites][j % nbActivites]).reify(),
+								model.arithm(enseignants[i / nbActivites][i % nbActivites], "!=", enseignants[j / nbActivites][j % nbActivites]).reify()));
+					}
+				}
+			}
+		}
+	}
+
+	private void contrainteCourImpropre(){
+		for (int i = 0; i < instance.getEnseignants().length; i++) {
+			Enseignant enseignant = instance.getEnseignant(i);
+			for (int j = 0; j < nbActivites*nbGroupes; j++) {
+				Activite activite = activitesMat[j/nbActivites][j%nbActivites];
+				// si le prof enseigne dans ce groupe
+				if(enseignant.getGroupe().contains(activite.getGroupe().getAlphabet())
+					|| enseignant.getGroupe().contains('I')){
+					boolean peutEnseigner = false;
+					for(String s : enseignant.getDisciplines()){
+						//System.out.println(activite.getMatiere().getSubject() + "   " + s);
+						if(activite.getMatiere().getSubject().toLowerCase().contains(s.toLowerCase())
+							|| activite.getMatiere().getSubject().startsWith("EDA")){
+							//System.out.println(activite.getMatiere().getSubject() + "   " + s);
+							peutEnseigner = true;
+						}
+					}
+					if(!peutEnseigner){
+						model.arithm(enseignants[j/nbActivites][j%nbActivites], "!=", enseignant.getId()).post();
+					}
 				}
 			}
 		}
 	}
 	// Un prof ne peut pas enseigner les cours qu'il n'est pas habilité à enseigner
-	private void contrainteCourImpropre(){
+	private void contrainteCourMatiereExclusive(){
 		// On s'assure que les profs enseignent leurs matières exclusives
 		// Pour chaque activité de chaque groupe
 		for(int i = 0; i < nbActivites*nbGroupes; i++) {
@@ -281,6 +312,8 @@ public class Solveur {
 			for(int j = 0; j < nbEnseignants; j++){
 				// On extrait une liste de matières qui lui sont exclusive
 				ArrayList<String> matieresExclusives = instance.exclusiveDiscipline(j);
+				System.out.println(instance.theEnseignants()[j]);
+				System.out.println(matieresExclusives + "\n");
 				// On vérifie qu'elle n'est pas précédée par EDA car tout les proffesseurs sont
 				// Habilités à enseigner des matières dont l'intitulé commence par EDA
 				if(!nature.startsWith("EDA"))
@@ -550,7 +583,7 @@ public class Solveur {
 //
 //		this.contrainteEnseignantGroupe();
 
-		//this.contrainteCalculDeviation();
+//		this.contrainteCalculDeviation();
 
 
 	}
@@ -558,6 +591,7 @@ public class Solveur {
 	public void solveWithModel(){
 		this.nbSol = 1;
 		Solver solver = model.getSolver();
+		this.contrainteCalculDeviation();
 		solver.showShortStatistics();
 		solver.findOptimalSolution(deviation_totale, false);
 		resultat = new CaseEdTGroupe[nbGroupes][nbCreneaux];
@@ -633,7 +667,7 @@ public class Solveur {
 				int[][] enseignantsSol = new int[nbGroupes][nbActivites];
 				int[][] sallesSol = new int[nbGroupes][nbActivites];
 
-				fillResultat(offset);
+				fillResultat(0);
 				for (int i = 0; i < nbActivites * nbGroupes; i++) {
 					heuresSol[i/nbActivites][i%nbActivites] = heures[i/nbActivites][i%nbActivites].getValue();
 					enseignantsSol[i/nbActivites][i%nbActivites] = enseignants[i/nbActivites][i%nbActivites].getValue();
@@ -644,7 +678,7 @@ public class Solveur {
 
 				SolutionEdt solutionEdt = new SolutionEdt(heuresSol, enseignantsSol, sallesSol, nbGroupes);
 				//
-				//serializaSolution(solutionEdt, "src/Solutions_Serialisees/sol10bis.ser");
+				serializaSolution(solutionEdt, "src/Solutions_Serialisees/sol10_a_18.ser");
 
 
 				k++;

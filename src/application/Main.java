@@ -5,6 +5,14 @@ package application;
     -Gérer le fait que pour l'instant si il n'y a pas de prof de sport, un prof qui n'est pas habilité a
     enseigner le sport est assigné a l'activité.
     -Démarches extérieures n'a pas besoin de prof
+
+    Chrono: nb Sous groupes     temps en sec
+            2                   0.682
+            4                   3.895
+            6                   15.797
+            8                   84.742
+    ajout du deuxième prof d'anglais
+            10                  73.803
  */
 
 import interfaces.MainInterface;
@@ -13,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
@@ -41,12 +50,15 @@ public class Main {
 //        solveur.printSolution();
 
 
-        Solveur solveur = new Solveur(new Probleme(10,   1));
+        Solveur solveur = new Solveur(new Probleme(18,     1));
         solveur.getInstance().printProbleme();
         solveur.definirContraintes();
+        Date tps1 = new Date(System.currentTimeMillis());
         solveur.LDS();
         //solveur.printModele();
+
         solveur.printSolution();
+        System.out.println((new Date(System.currentTimeMillis()).getTime()-tps1.getTime())/1000.0 + " secondes");
         //solveur.printDifferenceAvecModele();
         if(solveur.getInstance().getNbSols() > 1)
             solveur.printDifferences();

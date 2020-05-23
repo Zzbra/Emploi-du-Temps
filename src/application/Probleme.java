@@ -18,8 +18,10 @@ public class Probleme implements Serializable {
 		super();
 		this.nbGroupes = nbGroupes;
 		this.nbSols = nbSols;
-		this.setEnseignant(Arrays.copyOfRange(theEnseignants(), 0, 1 +(nbGroupes/2)*3));
-		this.setSalle(Arrays.copyOfRange(theSalles(), 0, 3 + nbGroupes));
+//		this.setEnseignant(Arrays.copyOfRange(theEnseignants(), 0, 1 +(nbGroupes/2)*3));
+//		this.setSalle(Arrays.copyOfRange(theSalles(), 0, 3 + nbGroupes));
+		this.setEnseignant(theEnseignants());
+		this.setSalle(theSalles());
 		this.setCreneaux(theCreneaux());
 		this.setGroupe(theGroupes(nbGroupes, nbSols));
 		this.setMatiere(theMatieres());
@@ -36,7 +38,9 @@ public class Probleme implements Serializable {
 		for (int i = 0; i < (nbGroupes/2)*3; i++) {
 			enseignantsList.add(theEnseignants()[indiceDepardProf + i]);
 		}
-		this.setEnseignant(enseignantsList.toArray(new Enseignant[enseignantsList.size()]));
+		//this.setEnseignant(enseignantsList.toArray(new Enseignant[enseignantsList.size()]));
+		this.setEnseignant(theEnseignants());
+
 		ArrayList<Salle> sallesList = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			sallesList.add(theSalles()[i]);
@@ -44,7 +48,8 @@ public class Probleme implements Serializable {
 		for (int i = 0; i < nbGroupes; i++) {
 			sallesList.add(theSalles()[3 + indiceDepard + i]);
 		}
-		this.setSalle(sallesList.toArray(new Salle[sallesList.size()]));
+		//this.setSalle(sallesList.toArray(new Salle[sallesList.size()]));
+		this.setSalle(theSalles());
 
 		this.setCreneaux(theCreneaux());
 		this.setGroupe(theGroupes(nbGroupes, indiceDepard, nbSols));
@@ -175,7 +180,7 @@ public class Probleme implements Serializable {
 	}
 
 	public Enseignant [] theEnseignants() {
-		Enseignant [] enseignants = new Enseignant [28];
+		Enseignant [] enseignants = new Enseignant [30];
 		enseignants[0] = new Enseignant("Yang Zheng", new ArrayList<Character>(){{add('I');}},new String[] {"anglais"}, 0);
 
 		enseignants[1] = new Enseignant("Thierry Mathias", new ArrayList<Character>(){{add('A');}},
@@ -193,7 +198,7 @@ public class Probleme implements Serializable {
 				new String[]{"referent", "francais"}, 6);
 
 		enseignants[7] = new Enseignant("Carole Magaud", new ArrayList<Character>(){{add('C');}},
-				new String[]{"referent", "francais"}, 7);
+				new String[]{"referent", "francais", "sport"}, 7);
 		enseignants[8] = new Enseignant("Mokhtar Mansouri", new ArrayList<Character>(){{add('C');}},
 				new String[]{"referent", "bureautique", "maths"}, 8);
 		enseignants[9] = new Enseignant("Philippe Del Bianco", new ArrayList<Character>(){{add('C');}},
@@ -202,7 +207,7 @@ public class Probleme implements Serializable {
 		enseignants[10] = new Enseignant("Pascal Marullaz", new ArrayList<Character>(){{add('E');}},
 				new String[]{"referent", "maths", "bureautique"}, 10);
 		enseignants[11] = new Enseignant("Serge Raysseguier", new ArrayList<Character>(){{add('E');}},
-				new String[]{"referent", "francias"}, 11);
+				new String[]{"referent", "francais", "sport"}, 11);
 		enseignants[12] = new Enseignant("Abes Hammachi", new ArrayList<Character>(){{add('E');}},
 				new String[]{"referent", "bureautique", "maths"}, 12);
 
@@ -211,19 +216,19 @@ public class Probleme implements Serializable {
 		enseignants[14] = new Enseignant("Timote Ducatez", new ArrayList<Character>(){{add('G');}},
 				new String[]{"referent", "bureautique", "maths"}, 14);
 		enseignants[15] = new Enseignant("Agnes Chambion", new ArrayList<Character>(){{add('G');}},
-				new String[]{"referent", "francais"}, 15);
+				new String[]{"referent", "francais", "sport"}, 15);
 
 		enseignants[16] = new Enseignant("Sabine Chiavassa", new ArrayList<Character>(){{add('F');}},
 				new String[]{"referent", "maths", "bureautique"}, 16);
 		enseignants[17] = new Enseignant("Marina Halliez", new ArrayList<Character>(){{add('F');}},
-				new String[]{"referent", "francias"}, 17);
+				new String[]{"referent", "francais", "sport"}, 17);
 		enseignants[18] = new Enseignant("Marie Rutowski", new ArrayList<Character>(){{add('F');}},
 				new String[]{"referent", "bureautique", "maths" }, 18);
 
 		enseignants[19] = new Enseignant("Mélanie Grenier", new ArrayList<Character>(){{add('H');}},
 				new String[]{"referent", "maths", "bureautique"}, 19);
 		enseignants[20] = new Enseignant("Margot Vinagre", new ArrayList<Character>(){{add('H');}},
-				new String[]{"referent", "francias"}, 20);
+				new String[]{"referent", "francais", "sport"}, 20);
 		enseignants[21] = new Enseignant("Claude Garmirian", new ArrayList<Character>(){{add('H');}},
 				new String[]{"referent", "bureautique", "maths"}, 21);
 
@@ -232,14 +237,16 @@ public class Probleme implements Serializable {
 		enseignants[23] = new Enseignant("Vanessa Kopec", new ArrayList<Character>(){{add('M');}},
 				new String[]{"referent", "francais", "anglais"}, 23); // Bizarre qu'il y ait anglais.
 		enseignants[24] = new Enseignant("Sandra Lajaunie", new ArrayList<Character>(){{add('M');}},
-				new String[]{"referent", "anglais"}, 24);
+				new String[]{"referent", "anglais", "sport"}, 24);
 
 		enseignants[25] = new Enseignant("Françoise Reina", new ArrayList<Character>(){{add('D');}},
 				new String[]{"referent", "maths", "bureautique"}, 25);
 		enseignants[26] = new Enseignant("Félix Saludès", new ArrayList<Character>(){{add('D');}},
-				new String[]{"referent", "bureautique"}, 26);
+				new String[]{"referent", "bureautique", "sport"}, 26);
 		enseignants[27] = new Enseignant("Daniel Libourel", new ArrayList<Character>(){{add('D');}},
 				new String[]{"referent", "maths", "francais"}, 27);
+		enseignants[28] = new Enseignant("Enseignant fictif", new ArrayList<Character>(){{add('I');}}, new String[]{"exterieures"}, 28);
+		enseignants[29] = new Enseignant("Enseignant anglais fictif", new ArrayList<Character>(){{add('I');}}, new String[]{"anglais"}, 29); // nécessaire au dessus de 10 groupes
 		return enseignants;
 	}
 
@@ -304,14 +311,14 @@ public class Probleme implements Serializable {
 		groupes[7] = new Groupe( 'E', 8, 15, "generique", 2);
 		groupes[8] = new Groupe( 'G', 9, 15, "generique", 1);
 		groupes[9] = new Groupe( 'G', 10, 15, "generique", 2);
-		groupes[10] = new Groupe( 'D', 11, 15, "generique", 1);
-		groupes[11] = new Groupe( 'D', 12, 15, "generique", 2);
-		groupes[12] = new Groupe( 'F', 13, 15, "generique", 1);
-		groupes[13] = new Groupe( 'F', 14, 15, "generique", 2);
-		groupes[14] = new Groupe( 'H', 15, 15, "generique", 1);
-		groupes[15] = new Groupe( 'H', 16, 15, "generique", 2);
-		groupes[16] = new Groupe( 'M', 17, 15, "generique", 2);
-		groupes[17] = new Groupe( 'M', 18, 15, "generique", 2);
+		groupes[10] = new Groupe( 'F', 11, 15, "generique", 1);
+		groupes[11] = new Groupe( 'F', 12, 15, "generique", 2);
+		groupes[12] = new Groupe( 'H', 13, 15, "generique", 1);
+		groupes[13] = new Groupe( 'H', 14, 15, "generique", 2);
+		groupes[14] = new Groupe( 'M', 15, 15, "generique", 1);
+		groupes[15] = new Groupe( 'M', 16, 15, "generique", 2);
+		groupes[16] = new Groupe( 'D', 17, 15, "generique", 2);
+		groupes[17] = new Groupe( 'D', 18, 15, "generique", 2);
 		return groupes;
 	}
 	public Groupe[] theGroupes(int nbSousGroupes, int nbSolutions){
@@ -339,8 +346,8 @@ public class Probleme implements Serializable {
 
 //		matieres[4] = new Matiere("Projet pedagogique", new String[]{"cours", "autre"}, 0, Color.WHITE);
 //		matieres[5] = new Matiere("Projet pedagogique", new String[]{"cours", "autre"}, 1, Color.WHITE);
-			matieres[4] = new Matiere("Projet pedagogique", new ArrayList<String>(){{add("autre");}}, 0);
-			matieres[5] = new Matiere("Projet pedagogique", new ArrayList<String>(){{add("autre");}}, 1);
+			matieres[4] = new Matiere("Projet pedagogique exterieures", new ArrayList<String>(){{add("autre");}}, 0);
+			matieres[5] = new Matiere("Projet pedagogique exterieures", new ArrayList<String>(){{add("autre");}}, 1);
 
 			matieres[6] = new Matiere("EDA francais", new ArrayList<String>(){{add("info");}}, 0);
 
@@ -349,11 +356,11 @@ public class Probleme implements Serializable {
 
 			matieres[8] = new Matiere("Francais", new ArrayList<String>(){{add("cours");}}, 0);
 
-			matieres[9] = new Matiere("Atelier lecture/ecriture", new ArrayList<String>(){{add("cours");}}, 0);
+			matieres[9] = new Matiere("Atelier lecture/ecriture francais", new ArrayList<String>(){{add("cours");}}, 0);
 			matieres[10] = new Matiere("EDA maths", new ArrayList<String>(){{add("info");}}, 0);
 			//matieres[8] = new Matiere("EDA maths - micro e/se", "info", 0);
-			matieres[11] = new Matiere("Remediation math", new ArrayList<String>(){{add("cours");}}, 0);
-			matieres[12] = new Matiere("Mathematique", new ArrayList<String>(){{add("cours");}}, 0);
+			matieres[11] = new Matiere("Remediation maths", new ArrayList<String>(){{add("cours");}}, 0);
+			matieres[12] = new Matiere("Mathematique maths", new ArrayList<String>(){{add("cours");}}, 0);
 			//matieres[13] = new Matiere("ARL", new String[]{"cours"}, 0);
 			matieres[13] = new Matiere("EDA bureautique", new ArrayList<String>(){{add("info");}}, 0);
 			//matieres[13] = new Matiere("EDA bureautique - micro e/se", "info", 0);

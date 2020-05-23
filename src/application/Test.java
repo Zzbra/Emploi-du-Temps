@@ -24,8 +24,8 @@ public class Test {
     }
 
     public static void genererSolution2(){
-        File sol1File = new File("src/Solutions_Serialisees/solABCE.ser");
-        File sol2File = new File("src/Solutions_Serialisees/solG.ser");
+        File sol1File = new File("src/Solutions_Serialisees/sol10-3.ser");
+        File sol2File = new File("src/Solutions_Serialisees/sol10_a_18.ser");
         ObjectInputStream ois1 = null;
         ObjectInputStream ois2 = null;
         SolutionEdt sol1 = null;
@@ -46,11 +46,14 @@ public class Test {
 
 //        sol1.print();
 //        sol2.print();
-        int[][] heurNouvSol = new int[10][20];
-        int[][] enseignantsNouvSol = new int[10][20];
-        int[][] sallesNouvSol = new int[10][20];
 
-        for (int i = 0; i < 8; i++) {
+        int nbAjout = 8;
+
+        int[][] heurNouvSol = new int[10+nbAjout][20];
+        int[][] enseignantsNouvSol = new int[10+nbAjout][20];
+        int[][] sallesNouvSol = new int[10+nbAjout][20];
+
+        for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
                 heurNouvSol[i][j] = sol1.getHeures()[i][j];
                 enseignantsNouvSol[i][j] = sol1.getEnseignants()[i][j];
@@ -58,18 +61,20 @@ public class Test {
             }
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < nbAjout; i++) {
             for (int j = 0; j < 20; j++) {
-                heurNouvSol[8+i][j] = sol2.getHeures()[i][j];
-                enseignantsNouvSol[8+i][j] = sol2.getEnseignants()[i][j] > 0 ? sol2.getEnseignants()[i][j]+12 : 0;
-                sallesNouvSol[8+i][j] = sol2.getSalles()[i][j] > 2 ? sol2.getSalles()[i][j]+8 : sol2.getSalles()[i][j];
+                heurNouvSol[10+i][j] = sol2.getHeures()[i][j];
+                enseignantsNouvSol[10+i][j] = sol2.getEnseignants()[i][j] ;
+                sallesNouvSol[10+i][j] = sol2.getSalles()[i][j] ;
             }
         }
 
         SolutionEdt solutionEdt = new SolutionEdt(heurNouvSol, enseignantsNouvSol, sallesNouvSol, 10);
+        solutionEdt.setNbGroupes(10+nbAjout);
+
         System.out.println(solutionEdt.getNbGroupes());
-        solutionEdt.print();
-        Solveur.serializaSolution(solutionEdt, "src/Solutions_Serialisees/solABCEG.ser");
+
+        Solveur.serializaSolution(solutionEdt, "src/Solutions_Serialisees/sol18.ser");
 
     }
 
