@@ -346,8 +346,8 @@ public class Probleme implements Serializable {
 
 //		matieres[4] = new Matiere("Projet pedagogique", new String[]{"cours", "autre"}, 0, Color.WHITE);
 //		matieres[5] = new Matiere("Projet pedagogique", new String[]{"cours", "autre"}, 1, Color.WHITE);
-			matieres[4] = new Matiere("Projet pedagogique exterieures", new ArrayList<String>(){{add("autre");}}, 0);
-			matieres[5] = new Matiere("Projet pedagogique exterieures", new ArrayList<String>(){{add("autre");}}, 1);
+			matieres[4] = new Matiere("Projet pedagogique referent", new ArrayList<String>(){{add("autre");}}, 0);
+			matieres[5] = new Matiere("Projet pedagogique referent", new ArrayList<String>(){{add("autre");}}, 1);
 
 			matieres[6] = new Matiere("EDA francais", new ArrayList<String>(){{add("info");}}, 0);
 

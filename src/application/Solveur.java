@@ -290,8 +290,14 @@ public class Solveur {
 						//System.out.println(activite.getMatiere().getSubject() + "   " + s);
 						if(activite.getMatiere().getSubject().toLowerCase().contains(s.toLowerCase())
 							|| activite.getMatiere().getSubject().startsWith("EDA")){
-							//System.out.println(activite.getMatiere().getSubject() + "   " + s);
-							peutEnseigner = true;
+							if(activite.getMatiere().getSubject().startsWith("EDA")){
+								if(!enseignant.getGroupe().contains('I')){
+									peutEnseigner = true;
+								}
+							}else {
+								//System.out.println(activite.getMatiere().getSubject() + "   " + s);
+								peutEnseigner = true;
+							}
 						}
 					}
 					if(!peutEnseigner){
