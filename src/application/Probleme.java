@@ -14,6 +14,14 @@ public class Probleme implements Serializable {
 	
 	public Probleme() {}
 
+	// Créer une instance de problème avec un nombre de groupe souhaité.
+	// Veuillez séléctionner un nombre de groupe pair (2 sous groupes par groupes)
+	// entre 2 et 18
+	public Probleme(int nbGroupes){
+		this(nbGroupes, 1);
+	}
+
+	// Pareil que précédemment mais avec un nombre de solutions désiré
 	public Probleme(int nbGroupes, int nbSols) {
 		super();
 		this.nbGroupes = nbGroupes;
@@ -28,6 +36,8 @@ public class Probleme implements Serializable {
 		this.setActivites(theActivites());
 	}
 
+	// Pareil que précédemment mais en indiquant l'indice de dépars
+	// Attention: il faut que nbGroupes + indiceDepard <= 18
 	public Probleme(int nbGroupes, int indiceDepard, int nbSols) {
 		super();
 		this.nbGroupes = nbGroupes;
@@ -57,6 +67,7 @@ public class Probleme implements Serializable {
 		this.setActivites(theActivites());
 	}
 
+	// Imprimer les données du problème
 	public void printProbleme(){
 		System.out.println();
 		for (int i = 0; i < getEnseignants().length; i++) {
@@ -178,6 +189,7 @@ public class Probleme implements Serializable {
 		}
 		return null;
 	}
+
 
 	public Enseignant [] theEnseignants() {
 		Enseignant [] enseignants = new Enseignant [30];
@@ -321,6 +333,8 @@ public class Probleme implements Serializable {
 		groupes[17] = new Groupe( 'D', 18, 15, "generique", 2);
 		return groupes;
 	}
+
+	// Les fonctions qui suivent servent à simuler l'exécution sur le bon nombre de sous groupes
 	public Groupe[] theGroupes(int nbSousGroupes, int nbSolutions){
 		Groupe[] groupes = new Groupe[nbSousGroupes * nbSolutions];
 		for (int i = 0; i < nbSousGroupes * nbSolutions; i++) {

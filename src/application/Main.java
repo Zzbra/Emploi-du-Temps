@@ -10,9 +10,13 @@ package application;
             2                   0.682
             4                   3.895
             6                   15.797
-            8                   84.742
+            8                   66.705
     ajout du deuxième prof d'anglais
-            10                  73.803
+            10                  75.999
+            12                  194.853
+            14                  306.767
+            16                  407.145
+            18
  */
 
 import interfaces.MainInterface;

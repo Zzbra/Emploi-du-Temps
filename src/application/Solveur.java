@@ -20,16 +20,15 @@ import java.util.stream.IntStream;
 
 /*
 	Contraintes à implémenter:
-		- Le reste des contraintes liées au jours/activitées
-		- Certains cours doivent être donnés par bloc de 2 (Temps referent)
+		- Certains cours doivent être donnés par bloc de 2
+		- Contrainte qui fait en sorte que l'enseignant référent d'un sous groupe lui enseigne les cours référent
 
 	J'ai besoin de savoir si les discipline ayant pour salle x/y (ex cours/info)
 	peuvent être donnés dans l'une ou l'autre en fonction des disponibilités ou
 	doivent être donnés certaine semaine dans l'une et d'autres dans l'autre
 	Pour l'instant c'est la première option qui est implémentée
 
-	- Voir pour les domaines de définition de la structure enseignants[][]
-	- Transformer le champ groupe en un ensemble pour les structure salle enseignant
+
 
 
  */
@@ -94,6 +93,16 @@ public class Solveur {
 			}
 		}
 
+		/*
+		   C'est ici qu'il faut préciser la solution de référence.
+		   Il est possible d'utiliser une solution de référence pour plus de sous
+		   groupes que sur le jeu de donné en entré en ajustant le nombre de sous
+		   groupes sur la solution de référence.
+		   Par exemple on exécute sur new Probleme(10);
+		   faire: this.solutionEdt.setNbGroupes(10);
+		   Uniquement si nbGroupes de solutionEdt > 10
+		*/
+
 		File fichier = new File("src/Solutions_Serialisees/sol18.ser");
 		ObjectInputStream ois = null;
 		this.solutionEdt = null;
@@ -104,10 +113,13 @@ public class Solveur {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 
-
+	// Cette contrainte implémente le calcul de déviation par rapport à un modèle
+	// comme fait sur le tutoriel sur les avions du site de choco solver
+	// Elle est rendue obsolète par le LNS et LDS
 	private void contrainteCalculDeviation(){
 		for (int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
@@ -142,19 +154,8 @@ public class Solveur {
 		return resultat;
 	}
 
-	public static CaseEdTGroupe[][] fillModele(SolutionEdt solutionEdt, Probleme instance){
-		CaseEdTGroupe[][] modele = new CaseEdTGroupe[solutionEdt.getNbGroupes()][20];
-		Salle[] lesSalles = instance.getSalles();
-		Enseignant[] lesEnseignants = instance.getEnseignants();
-		for (int i = 0; i < 20 * solutionEdt.getNbGroupes(); i++) {
-			Activite activite = instance.getActivite(i / 20, i % 20);
-			modele[(i / 20)][solutionEdt.getHeures()[i / 20][i % 20]] =
-					new CaseEdTGroupe(activite, instance.getSalleById(solutionEdt.getSalles()[i / 20][i % 20]),
-					instance.getEnseignantById(solutionEdt.getEnseignants()[i / 20][i % 20]));
-		}
-		return modele;
-	}
-
+	// Cette fonction recherche les domaines de définition des variables de modélisation.
+	// Utilisé pour instancier enseignant[][]
 	private ArrayList<int[]> getIdEnseignantsParGroupes(){
 		ArrayList<int[]> resultat = new ArrayList<>();
 		for (int i = 0; i < nbGroupes; i++) {
@@ -172,6 +173,33 @@ public class Solveur {
 			for (int i = 0; i < tab.length; i++) {
 				System.out.printf("%d; ", tab[i]);
 			}
+			System.out.println();
+		}
+		return resultat;
+	}
+
+	// Pareil que celle d'avant mais pour les salles
+	private ArrayList<int[]> getIdSallesParGroupes(){
+		ArrayList<int[]> resultat = new ArrayList<>();
+		for (int i = 0; i < nbGroupes; i++) {
+			ArrayList<Integer> ligne = new ArrayList<>();
+			for (int j = 0; j < nbSalles; j++) {
+				char groupe = this.instance.getGroupe()[i].getAlphabet();
+				if(this.instance.getSalle(j).getGroupe().contains(groupe) ||
+						this.instance.getSalle(j).getGroupe().contains('I')){
+					ligne.add(this.instance.getSalle(j).getId());
+				}
+			}
+			resultat.add(ligne.stream().mapToInt(k -> k).toArray());
+		}
+		int j = 1;
+		for(int[] tab : resultat){
+			System.out.println("Groupe" + j);
+			for (int i = 0; i < tab.length; i++) {
+				System.out.printf("%d; ", tab[i]);
+			}
+			System.out.println();
+			j++;
 			System.out.println();
 		}
 		return resultat;
@@ -217,33 +245,15 @@ public class Solveur {
 		}
 	}
 
-	private ArrayList<int[]> getIdSallesParGroupes(){
-		ArrayList<int[]> resultat = new ArrayList<>();
-		for (int i = 0; i < nbGroupes; i++) {
-			ArrayList<Integer> ligne = new ArrayList<>();
-			for (int j = 0; j < nbSalles; j++) {
-				char groupe = this.instance.getGroupe()[i].getAlphabet();
-				if(this.instance.getSalle(j).getGroupe().contains(groupe) ||
-				   this.instance.getSalle(j).getGroupe().contains('I')){
-					ligne.add(this.instance.getSalle(j).getId());
-				}
-			}
-			resultat.add(ligne.stream().mapToInt(k -> k).toArray());
-		}
-		int j = 1;
-		for(int[] tab : resultat){
-			System.out.println("Groupe" + j);
-			for (int i = 0; i < tab.length; i++) {
-				System.out.printf("%d; ", tab[i]);
-			}
-			System.out.println();
-			j++;
-			System.out.println();
-		}
-		return resultat;
-	}
 
-	// Le prof d'anglais ne donne que des cours d'anglais
+	/*
+	 	Le prof d'anglais ne donne que des cours d'anglais
+	   	Cette contrainte pourrait être amené à changer pour prendre en compte les
+	    profs d'anglais des sous groupes de 10 à 18. En effet, ils n'enseignent plus
+	    uniquement les cours d'anglais. Pour l'instant un prof d'anglais fictif à été
+	    ajouté pour améliorer le temps de résolution quand le probème devient grand.
+	 */
+
 	private void contrainteProfAnglais(){
 		ArrayList<Integer> idProfAnglais = new ArrayList<>();
 		for(int i = 0; i < instance.getEnseignants().length; i++){
@@ -277,6 +287,10 @@ public class Solveur {
 		}
 	}
 
+	/*
+		Cette contrainte s'assure qu'un enseignant n'enseigne pas une matière qu'il n'est pas habilité à enseigner.
+		Elle exclut les matières de type EDA qui peuvent être enseignées par tout les enseignants.
+	 */
 	private void contrainteCourImpropre(){
 		for (int i = 0; i < instance.getEnseignants().length; i++) {
 			Enseignant enseignant = instance.getEnseignant(i);
@@ -307,7 +321,13 @@ public class Solveur {
 			}
 		}
 	}
-	// Un prof ne peut pas enseigner les cours qu'il n'est pas habilité à enseigner
+
+	/*
+		Cette contrainte fait en sorte qu'un enseignant enseigne les matières qu'il est le seul à pouvoir
+		enseigner dans son sous groupe.
+		Elle date de précédentes choix de médilation et devrait ne plus jamais servir.
+		Elle peut donc être retiré. La fonction Probleme.exclusiveDiscipline() peut également être retirée.
+	 */
 	private void contrainteCourMatiereExclusive(){
 		// On s'assure que les profs enseignent leurs matières exclusives
 		// Pour chaque activité de chaque groupe
@@ -441,7 +461,7 @@ public class Solveur {
 		}
 	}
 
-	// Contrainte symetrie classe
+	// Contrainte symetrie classe obsolète depuis l'assignation rigide entre salle et sous groupe
 	private void contrainteSymetrieClasses(){
 		// Pour chaque actvité (créneau)
 		for (int i = 0; i < nbActivites; i++) {
@@ -457,6 +477,7 @@ public class Solveur {
 		}
 	}
 
+	// Pareil que la contrainte précédente mais avec les enseignants.
 	private void contrainteSymetrieEnseignants(){
 		// Pour chaque actvité (créneau)
 		for (int i = 0; i < nbActivites; i++) {
@@ -472,6 +493,8 @@ public class Solveur {
 		}
 	}
 
+
+	// Briser un type de symétrie sur les salles mais induit un ordre dans les salles qui n'est pas nécessairement voulu
 	private void contrainteSymetrieSallePourUnGroupe(){
 		for (int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
@@ -484,6 +507,7 @@ public class Solveur {
 		}
 	}
 
+	// Pareil que la conrainte précédente mais pur les enseignants
 	private void contrainteSymetrieProfPourUnGroupe(){
 		for (int i = 0; i < nbGroupes; i++) {
 			for (int j = 0; j < nbActivites; j++) {
@@ -504,6 +528,7 @@ public class Solveur {
 		return false;
 	}
 
+	// Cette contrainte est obsolète depuis la redéfinition des domaines de définition des variables dans IntVar salle[][]
 	private void contrainteSalleGroupe(){
 		// Pour chaque activité de chaque groupe
 		for (int i = 0; i < nbGroupes; i++) {
@@ -528,6 +553,7 @@ public class Solveur {
 		}
 	}
 
+	// Pareil que la contrainte précédente mais sur IntVar enseignants[][]
 	private void contrainteEnseignantGroupe(){
 		// Pour chaque activité de chaque groupe
 		for (int i = 0; i < nbGroupes; i++) {
@@ -594,6 +620,10 @@ public class Solveur {
 
 	}
 
+	/*
+		Cette fonction résoud le problème en optimisant la variable qui recense la divergence avec le modèle
+		tel que fait dans le tutoriel sur les avions de choco solver. Rendu obsolète par LNS et LDS
+	 */
 	public void solveWithModel(){
 		this.nbSol = 1;
 		Solver solver = model.getSolver();
@@ -604,37 +634,7 @@ public class Solveur {
 		fillResultat(0);
 	}
 
-	public void LNS(){
-		this.setReferenceSolution();
-		Solution solution = new Solution(model, finalDataCat);
-		IntStream.range(0, nbGroupes * nbCreneaux * 3).forEach(i -> solution.setIntVal(finalDataCat[i], finalDataCatSol[i]));
-		MoveLNS lns = new MoveLNS(model.getSolver().getMove(), INeighborFactory.random(finalDataCat), new FailCounter(model, 100));
-		lns.loadFromSolution(solution, model.getSolver());
-		model.getSolver().setMove(lns);
-		this.solve();
-	}
-
-	private void setReferenceSolution(){
-		IntVar[] dataCat =null;
-		int[] dataCatSol = null;
-		for (int i = 0; i < nbGroupes; i++) {
-			dataCat = ArrayUtils.append(dataCat, heures[i]);
-			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getHeures()[i]);
-		}
-		for (int i = 0; i < nbGroupes; i++) {
-			dataCat = ArrayUtils.append(dataCat, enseignants[i]);
-			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getEnseignants()[i]);
-		}
-		for (int i = 0; i < nbGroupes; i++) {
-			dataCat = ArrayUtils.append(dataCat, salles[i]);
-			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getSalles()[i]);
-		}
-		finalDataCat = dataCat;
-		finalDataCatSol = dataCatSol;
-	}
-
-
-
+	// Limited Discrepancy Search
 	public void LDS(){
 		this.setReferenceSolution();
 		Map<IntVar, Integer> map = IntStream.range(0,nbGroupes*nbCreneaux*3).boxed().collect(Collectors.toMap(i-> finalDataCat[i], i -> finalDataCatSol[i]));
@@ -654,6 +654,38 @@ public class Solveur {
 		this.printDifferenceAvecModele();
 	}
 
+	// Large Neighbourhood Search
+	public void LNS(){
+		this.setReferenceSolution();
+		Solution solution = new Solution(model, finalDataCat);
+		IntStream.range(0, nbGroupes * nbCreneaux * 3).forEach(i -> solution.setIntVal(finalDataCat[i], finalDataCatSol[i]));
+		MoveLNS lns = new MoveLNS(model.getSolver().getMove(), INeighborFactory.random(finalDataCat), new FailCounter(model, 100));
+		lns.loadFromSolution(solution, model.getSolver());
+		model.getSolver().setMove(lns);
+		this.solve();
+	}
+
+	// Fonction utilisé par LNS et LDS pour charger la solution de référence
+	private void setReferenceSolution(){
+		IntVar[] dataCat =null;
+		int[] dataCatSol = null;
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, heures[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getHeures()[i]);
+		}
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, enseignants[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getEnseignants()[i]);
+		}
+		for (int i = 0; i < nbGroupes; i++) {
+			dataCat = ArrayUtils.append(dataCat, salles[i]);
+			dataCatSol = ArrayUtils.append(dataCatSol, solutionEdt.getSalles()[i]);
+		}
+		finalDataCat = dataCat;
+		finalDataCatSol = dataCatSol;
+	}
+
+	// Fonction qui résoud le problème
 	public void solve(){
 		Solver solver = model.getSolver();
 		solver.showSolutions();
@@ -684,7 +716,7 @@ public class Solveur {
 
 				SolutionEdt solutionEdt = new SolutionEdt(heuresSol, enseignantsSol, sallesSol, nbGroupes);
 				//
-				serializaSolution(solutionEdt, "src/Solutions_Serialisees/sol10_a_18.ser");
+				//serializaSolution(solutionEdt, "src/Solutions_Serialisees/sol10_a_18.ser");
 
 
 				k++;
@@ -712,6 +744,14 @@ public class Solveur {
 		}
 	}
 
+	/*
+		Fonction qui sert a remplir la structure CaseEdtGroupe[][]
+		Contrairement à solutionEdt, cette structure contient des objets enseignant salles ect donc leur
+		nom. solutionEdt ne comporte que les indices rendu par le solver (le contenu de enseignants[][] salles[]][] et
+		heures[][] qui contient les id des enseignants salles et le créneau entre 0 et 19.
+		A priori, avec le système des id unique et la base de donnée, la structure caseEdtGroupe[][] ne devrait plus servir.
+		On se sert du offset lorsque l'on veut imprimer plus d'une solution.
+	 */
 	private void fillResultat(int offset){
 		Salle[] lesSalles = instance.getSalles();
 		Enseignant[] lesEnseignants = instance.getEnseignants();
@@ -724,6 +764,24 @@ public class Solveur {
 		}
 	}
 
+	/*
+		Cette fonction sert à l'impression du modèle. Elle remplit une structure
+		CaseEdtGroupe[][] pour charger les noms des enseignants et salles à partir de leur
+		ids qui sont donné par le modèle.
+	 */
+	public static CaseEdTGroupe[][] fillModele(SolutionEdt solutionEdt, Probleme instance){
+		CaseEdTGroupe[][] modele = new CaseEdTGroupe[solutionEdt.getNbGroupes()][20];
+		Salle[] lesSalles = instance.getSalles();
+		Enseignant[] lesEnseignants = instance.getEnseignants();
+		for (int i = 0; i < 20 * solutionEdt.getNbGroupes(); i++) {
+			Activite activite = instance.getActivite(i / 20, i % 20);
+			modele[(i / 20)][solutionEdt.getHeures()[i / 20][i % 20]] =
+					new CaseEdTGroupe(activite, instance.getSalleById(solutionEdt.getSalles()[i / 20][i % 20]),
+							instance.getEnseignantById(solutionEdt.getEnseignants()[i / 20][i % 20]));
+		}
+		return modele;
+	}
+ 	// Cette fonction imprime le modèle
 	public void printModele(){
 		System.out.println("Impression du modele:");
 		this.modele = fillModele(this.solutionEdt, this.getInstance());
@@ -735,6 +793,7 @@ public class Solveur {
 		}
 	}
 
+	// Cette fonction imprile la ou les solutions
 	public void printSolution(){
 		System.out.println("Impression solution(s):");
 		for(int l = 0; l < nbSol; l++) {
@@ -748,6 +807,7 @@ public class Solveur {
 		System.out.println("\n");
 	}
 
+	// Cette fonction imprime les différence entre la solution et le modèle
 	public void printDifferenceAvecModele(){
 		CaseEdTGroupe[][] data = new CaseEdTGroupe[nbGroupes*2][nbCreneaux];
 		for (int i = 0; i < nbGroupes; i++) {
@@ -766,6 +826,7 @@ public class Solveur {
 		calculDifference.print();
 	}
 
+	//	Cette fonction imprime les différences entre les solutions
 	public void printDifferences(){
 		if(nbSol > 1) {
 			CalculDifference calculDifference = new CalculDifference(resultat, nbGroupes, nbSol, instance.getCreneaux());
@@ -774,6 +835,8 @@ public class Solveur {
 		}
 	}
 
+	// Retourne l'indice d'une séquence d'un cour dans le tableau des matières.
+	// Peut être rendu obsolète si la bdd utiliser des id unique pour les matières.
 	private int getIndiceSeq(String matiereSubject, int nSeq, int groupe){
 		for(int i = 0; i < this.nbActivites; i++){
 			Matiere matiere = activitesMat[groupe][i].getMatiere();
@@ -784,10 +847,12 @@ public class Solveur {
 		return -1;
 	}
 
+	// Retourne la structure qui contient la solution.
 	public SolutionEdt getSolutionEdt() {
 		return solutionEdt;
 	}
 
+	// Sérialise une solution et l'enregistre au chemin précisé par path
 	public static void serializaSolution(SolutionEdt solutionEdt, String path){
 		File fichier = new File(path);
 		ObjectOutputStream oos = null;
